@@ -1,6 +1,8 @@
+import './styles/main.css'
+
 function App() {
 
-  return <p>Hello World</p>
+  return <div className='w-10 h-10 bg-stone-900'></div>
 
 }
 
