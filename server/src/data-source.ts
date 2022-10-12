@@ -1,8 +1,6 @@
 import "reflect-metadata"
 import "dotenv/config"
 import { DataSource } from "typeorm"
-import { User } from "./entity/Users"
-import { Book } from "./entity/Book"
 
 const port = process.env.DB_PORT as number | undefined
 

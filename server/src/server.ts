@@ -1,15 +1,10 @@
 import express from 'express';
 import { AppDataSource } from "./data-source";
-import { User } from "./entity/Users";
+import routes from './routes';
 
 AppDataSource.initialize().then(async () => {
     const app = express();
     app.use(express.json());
-
-    app.get('/', (req, res) => {
-        return res.json('Ok!')
-    })
-
+    app.use(routes)
     return app.listen(process.env.PORT);
-
 }).catch(error => console.log(error))
