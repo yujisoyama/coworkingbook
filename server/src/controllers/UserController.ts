@@ -1,17 +1,17 @@
-import { Request, Response } from "express";
-import { UserRepository } from "../repositories/UserRepository";
+import { Request, response, Response } from "express";
+import IUserServices from "../services/IUserServices";
 
-export class UserController {
-    async create(req:Request, res:Response) {
+class UserController {
+
+    async create(req: Request, res: Response, userServices: IUserServices) {
         const { name, email, password } = req.body;
-
-        try {
-            const userRepository = UserRepository.create({name, email, password});
-            await UserRepository.save(userRepository);
-            return res.status(201).json(userRepository);
-        } catch (err) {
-            console.log(err)
-            return res.status(500).json({Message: 'Internal server error'})
+        const result = await userServices.save({ name, email, password });
+        if(result instanceof Error) {
+            return res.status(400).json(result.message);
         }
+        return res.status(201).json(result);
     }
 }
+
+const userController = new UserController();
+export default userController;
