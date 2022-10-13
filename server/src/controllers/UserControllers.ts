@@ -1,7 +1,7 @@
-import { Request, response, Response } from "express";
+import { Request, Response } from "express";
 import IUserServices from "../services/IUserServices";
 
-class UserController {
+class UserControllers {
 
     async create(req: Request, res: Response, userServices: IUserServices) {
         const { name, email, password } = req.body;
@@ -13,5 +13,5 @@ class UserController {
     }
 }
 
-const userController = new UserController();
-export default userController;
+const userControllers = new UserControllers();
+export default userControllers;
