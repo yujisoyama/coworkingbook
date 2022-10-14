@@ -13,12 +13,13 @@ module.exports = {
       highlight: '#f9bc60',
       paragraph: '#abd1c6',
       buttonText: '#001e1d',
+      buttonHover: '',
       main: '#e8e4e6',
       secondary: '#abd1c6',
       attention: '#e16162'
     },
     screens: {
-      'mobile': {'max': '1300px'},
+      'mobile': {'max': '1100px'},
     },
     fontFamily: {
       noto: ['Noto Sans', 'sans-serif'],
