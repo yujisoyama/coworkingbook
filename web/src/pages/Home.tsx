@@ -8,9 +8,9 @@ export const Home = () => {
     <div className="bg-login bg-cover bg-no-repeat w-screen h-screen mobile:h-full mobile:w-full mobile:bg-loginmobile">
         <div className="h-5/6 pt-10 flex justify-center items-center mobile:flex-col mobile:h-auto" >
             <div className="mt-5 w-[40rem] mobile:w-[400px]">
-                <h1 className="text-4xl text-highlight font-open font-bold">Coworking Book</h1>
-                <p className="mt-5 text-lg font-open font-semibold text-paragraph">Platform to simplify the booking for desks or meeting rooms in coworking spaces</p>
-                <img src={workGif} alt="gif" className="block w-96 h-96 mt-10 mr-auto ml-auto" />
+                <h1 className="text-4xl text-highlight font-open font-bold mobile:pl-4">Coworking Book</h1>
+                <p className="mt-5 text-lg font-open font-semibold text-paragraph mobile:pl-4 pr-4">Platform to simplify the booking for desks or meeting rooms in coworking spaces</p>
+                <img src={workGif} alt="gif" className="block w-96 h-96 mt-10 mr-auto ml-auto mobile:mt-3" />
             </div>
             <div className="w-[400px] h-[510px] p-8 opacity-95 rounded-[30px] bg-backgroundLight relative  before:content-[''] before:absolute before:bg-secondary before:opacity-10 before:inset-0 before:-rotate-[4deg] before:-z-10 before:rounded-[30px] mobile:mt-10 mobile:mb-[90px] mobile:w-[350px] mobile:h-[525px]">
                 <div>
