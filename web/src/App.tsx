@@ -1,9 +1,17 @@
 import './styles/main.css'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { Home } from './pages/Home'
+import { Book } from './pages/Book'
 
 function App() {
-
-  return <div className='w-10 h-10 bg-stone-900'></div>
-
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/book" element={<Book />} />
+      </Routes>
+    </Router>
+  )
 }
 
 export default App
