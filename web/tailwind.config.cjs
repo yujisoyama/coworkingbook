@@ -19,7 +19,8 @@ module.exports = {
       attention: '#e16162'
     },
     screens: {
-      'mobile': {'max': '1100px'},
+      'mobileHome': {'max': '1100px'},
+      'mobileSignup': {'max': '500px'}
     },
     fontFamily: {
       noto: ['Noto Sans', 'sans-serif'],
