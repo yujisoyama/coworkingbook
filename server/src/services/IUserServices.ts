@@ -1,11 +1,13 @@
 import { User } from "../entity/User";
 
 export interface UserSaveRequest {
-    name: string;
+    fullname: string;
     email: string;
     password: string;
+    company: string;
+    role: string
 }
 
 export default interface IUserServices {
-    save({ name, email, password }: UserSaveRequest): Promise<User | Error>;
+    save({ fullname, email, password, company, role }: UserSaveRequest): Promise<User | Error>;
 }

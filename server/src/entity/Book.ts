@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Period } from "./Period";
 import { User } from "./User";
 
 
@@ -8,16 +9,17 @@ export class Book {
     id: number
 
     @ManyToOne(() => User, user => user.books)
-    @JoinColumn({name: 'user_id'})
+    @JoinColumn({ name: 'user_id' })
     user: User
 
-    @Column({type: 'int', nullable: false})
+    @Column({ type: 'int', nullable: false })
     desk: number
 
-    @Column({type: 'text', nullable: false})
-    period: string
+    @OneToOne(() => Period)
+    @JoinColumn({ name: 'period_id' })
+    period: Period
 
-    @Column({type: 'date', nullable: false})
+    @Column({ type: 'date', nullable: false })
     booking_day: Date
 
     @CreateDateColumn()
