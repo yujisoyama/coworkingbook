@@ -1,9 +1,10 @@
 import { Book } from "../entity/Book";
+import { Period } from "../entity/Period";
 import { User } from "../entity/User";
 
 export interface BookSaveRequest {
     desk: number;
-    period: string;
+    period: Period;
     booking_day: Date;
     user: User;
 }

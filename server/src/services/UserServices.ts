@@ -3,10 +3,10 @@ import { userRepository } from "../repositories/UserRepository";
 import IUserServices, { UserSaveRequest } from "./IUserServices";
 
 class UserServices implements IUserServices {
-    async save({ name, email, password }: UserSaveRequest): Promise<User | Error> {
-        const newUser = userRepository.create({ name, email, password });
+    async save({ fullname, email, password, company, role }: UserSaveRequest): Promise<User | Error> {
+        const newUser = userRepository.create({ fullname, email, password, company, role });
         if (await userRepository.findOneBy({ email })) {
-            return Error("This e-mail is already being used");
+            return Error("This email is already being used");
         }
 
         await userRepository.save(newUser);
