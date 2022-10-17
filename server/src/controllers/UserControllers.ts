@@ -7,7 +7,7 @@ class UserControllers {
         const { fullname, email, password, company, role }: UserSaveRequest = req.body;
         const result = await userServices.save({ fullname, email, password, company, role });
         if (result instanceof Error) {
-            return res.status(400).json(result.message);
+            return res.status(409).json(result.message);
         }
         return res.status(201).json(result);
     }
