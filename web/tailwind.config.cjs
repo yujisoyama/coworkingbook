@@ -11,6 +11,7 @@ module.exports = {
       background: '#001e1d',
       backgroundLight: '#004643',
       highlight: '#f9bc60',
+      disabled: '#FFDF9A',
       paragraph: '#abd1c6',
       buttonText: '#001e1d',
       buttonHover: '',

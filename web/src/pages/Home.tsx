@@ -60,7 +60,7 @@ export const Home = () => {
             </div>
             <ToastContainer
                 position="top-right"
-                autoClose={3000}
+                autoClose={5000}
                 limit={5}
                 hideProgressBar={false}
                 newestOnTop={false}
