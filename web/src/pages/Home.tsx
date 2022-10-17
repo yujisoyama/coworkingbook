@@ -41,11 +41,11 @@ export const Home = () => {
                         <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-5 relative">
                             <div className="relative mx-auto">
                                 <span><EnvelopeSimple className="inline absolute top-4 left-5" size={24} /></span>
-                                <Input type='text' placeholder="Email" />
+                                <Input name="email" id="email" type='text' placeholder="Email*" warning={'false'} />
                             </div>
                             <div className="relative mx-auto">
                                 <span><Lock className="inline absolute top-4 left-5" size={24} /></span>
-                                <Input type='password' placeholder="Password" />
+                                <Input name="password" id="password" type='password' placeholder="Password*" warning={'false'} />
                             </div>
                             <div className="w-40 ml-[11.5rem] mobileHome:ml-[10rem]">
                                 <a onClick={handleSubmit} className="font-open font-semibold text-sm hover:underline text-main" href="#">Forgot password?</a>
