@@ -21,7 +21,8 @@ module.exports = {
     },
     screens: {
       'mobileHome': {'max': '1100px'},
-      'mobileSignup': {'max': '500px'}
+      'mobileSignup': {'max': '500px'},
+      'mobileSignupConfirm': {'max': '630px'}
     },
     fontFamily: {
       noto: ['Noto Sans', 'sans-serif'],
