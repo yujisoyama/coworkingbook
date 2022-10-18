@@ -6,6 +6,11 @@ import userServices from "./services/UserServices";
 
 const routes = Router();
 
+routes.get('/', (req: Request, res: Response) => {
+    res.send('Coworking Book Server-side')
+})
+
+
 routes.post('/user', (req: Request, res: Response) => {
     userControllers.create(req, res, userServices);
 });
@@ -14,7 +19,7 @@ routes.get('/user/:email', (req: Request, res: Response) => {
     userControllers.checkEmail(req, res, userServices);
 })
 
-routes.get('/user/active/:email', (req: Request, res: Response) => {
+routes.put('/user/active/:id', (req: Request, res: Response) => {
     userControllers.activateAccount(req, res, userServices);
 });
 

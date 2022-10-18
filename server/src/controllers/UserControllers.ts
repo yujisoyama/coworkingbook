@@ -16,8 +16,8 @@ class UserControllers {
     }
 
     async activateAccount(req: Request, res: Response, userServices: IUserServices) {
-        const email = req.params.email;
-        const result = await userServices.activateAccount(email);
+        const uuid = req.params.id;
+        const result = await userServices.activateAccount(uuid);
         return res.status(200).json(result);
     }
 }

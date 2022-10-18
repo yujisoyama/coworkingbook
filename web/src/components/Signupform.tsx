@@ -24,7 +24,7 @@ export const Signupform = () => {
         setIsSubmitting(true);
         const formData = new FormData(event.target as HTMLFormElement);
         const form = Object.fromEntries(formData);
-        timer = setTimeout(() => formValidate(form), 3000);
+        timer = setTimeout(() => formValidate(form), 2000);
     }
 
     const formValidate = async (form: { [k: string]: FormDataEntryValue; }) => {
@@ -183,7 +183,7 @@ export const Signupform = () => {
                             </div>
                             <div className="relative mx-auto">
                                 <span><ShareNetwork className="inline absolute top-4 left-5" size={24} /></span>
-                                <Input name="role" id="role" type='password' placeholder="Role" warning={'false'} />
+                                <Input name="role" id="role" type='text' placeholder="Role" warning={'false'} />
                             </div>
                             <button disabled={isSubmitting} className={`w-36 mx-auto h-12 rounded-full font-extrabold from-buttonText ${isSubmitting ? 'bg-disabled scale-105' : 'bg-highlight hover:bg-[#FFB340] hover:scale-105 duration-300'}`} type="submit">
                                 {isSubmitting ? <ThreeDots

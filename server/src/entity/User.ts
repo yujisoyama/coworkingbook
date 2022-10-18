@@ -1,10 +1,14 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, Generated, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Book } from "./Book";
 
 @Entity('users')
 export class User {
     @PrimaryGeneratedColumn()
     id: number
+
+    @Column()
+    @Generated('uuid')
+    uuid: string
 
     @Column({ type: 'text', nullable: false })
     fullname: string

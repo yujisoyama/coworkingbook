@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Home } from './pages/Home'
 import { Book } from './pages/Book'
 import { Signup } from './pages/Signup'
-import { Check } from 'phosphor-react'
+import { Activate } from './pages/Activate'
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/signup/check" element={<Check />} />
+        <Route path="/signup/activate/:userUuid" element={<Activate />} />
         <Route path="/book" element={<Book />} />
       </Routes>
     </Router>

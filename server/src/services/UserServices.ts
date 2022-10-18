@@ -1,5 +1,5 @@
-import { SelectQueryBuilder } from "typeorm";
 import { User } from "../entity/User";
+import { sendEmail } from "../mail";
 import { userRepository } from "../repositories/UserRepository";
 import IUserServices, { UserSaveRequest } from "./IUserServices";
 
@@ -7,6 +7,7 @@ class UserServices implements IUserServices {
     async save({ fullname, email, password, company, role }: UserSaveRequest): Promise<User> {
         const newUser = userRepository.create({ fullname, email, password, company, role });
         await userRepository.save(newUser);
+        sendEmail(newUser.uuid, newUser.email, newUser.fullname);
         return newUser;
     }
 
@@ -19,18 +20,29 @@ class UserServices implements IUserServices {
         }
     }
 
-    async activateAccount(email: string): Promise<User | null> {
-        await userRepository.createQueryBuilder()
-            .update(User)
-            .set({ confirmed: true })
-            .where("email = :email", { email: email })
-            .execute();
-
-        const user = await userRepository.createQueryBuilder("user")
-            .where("user.email = :email", { email: email })
+    async activateAccount(uuid: string): Promise<User | null> {
+        let user = await userRepository.createQueryBuilder("user")
+            .where("user.uuid = :uuid", { uuid: uuid })
             .getOne();
 
-        return user;
+        const confirmed: boolean | undefined = user?.confirmed;
+
+        if (confirmed) {
+            return user;
+        } else {
+            user = await userRepository.createQueryBuilder("user")
+                .where("user.uuid = :uuid", { uuid: uuid })
+                .getOne();
+
+            await userRepository.createQueryBuilder()
+                .update(User)
+                .set({ confirmed: true })
+                .where("uuid = :uuid", { uuid: uuid })
+                .execute();
+
+            return user;
+        }
+
     }
 }
 
