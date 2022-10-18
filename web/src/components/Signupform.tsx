@@ -1,6 +1,6 @@
 import { EnvelopeSimple, Lock, NotePencil, IdentificationCard, Buildings, ShareNetwork, PaperPlaneTilt } from "phosphor-react";
 import { ThreeDots } from "react-loader-spinner";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Input } from "../components/Input"
 import { FormEvent, useState } from "react";
 import { api } from "../Api";
@@ -17,7 +17,6 @@ export const Signupform = () => {
     const [formFullName, setFormFullName] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
-    const navigate = useNavigate();
     let timer: number;
 
     const handleSubmit = (event: FormEvent) => {

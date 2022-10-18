@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Book } from "./Book";
 
 @Entity('users')
@@ -21,8 +21,8 @@ export class User {
     @Column({ type: 'text', nullable: true })
     role: string
 
-    // @Column({ type: 'boolean', nullable: false })
-    // confirmed: boolean
+    @Column({ type: 'boolean', nullable: false, default: false })
+    confirmed: boolean
 
     @CreateDateColumn()
     created_at: Date

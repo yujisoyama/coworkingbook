@@ -7,7 +7,6 @@ export const Signup = () => {
             <div className="flex justify-center h-full items-center" >
                     <Signupform />
             </div>
-            
         </div>
     )
 }

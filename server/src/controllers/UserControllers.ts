@@ -6,10 +6,19 @@ class UserControllers {
     async create(req: Request, res: Response, userServices: IUserServices) {
         const { fullname, email, password, company, role }: UserSaveRequest = req.body;
         const result = await userServices.save({ fullname, email, password, company, role });
-        if (result instanceof Error) {
-            return res.status(409).json(result.message);
-        }
         return res.status(201).json(result);
+    }
+
+    async checkEmail(req: Request, res: Response, userServices: IUserServices) {
+        const email = req.params.email;
+        const result = await userServices.checkEmail(email);
+        return res.status(200).json(result);
+    }
+
+    async activateAccount(req: Request, res: Response, userServices: IUserServices) {
+        const email = req.params.email;
+        const result = await userServices.activateAccount(email);
+        return res.status(200).json(result);
     }
 }
 

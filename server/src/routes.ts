@@ -10,6 +10,14 @@ routes.post('/user', (req: Request, res: Response) => {
     userControllers.create(req, res, userServices);
 });
 
+routes.get('/user/:email', (req: Request, res: Response) => {
+    userControllers.checkEmail(req, res, userServices);
+})
+
+routes.get('/user/active/:email', (req: Request, res: Response) => {
+    userControllers.activateAccount(req, res, userServices);
+});
+
 routes.post('/book', (req: Request, res: Response) => {
     bookControllers.create(req, res, bookServices);
 });
