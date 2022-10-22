@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import path from "path";
 import IUserServices, { UserSaveRequest } from "../services/IUserServices";
 
 class UserControllers {
@@ -16,9 +17,14 @@ class UserControllers {
     }
 
     async activateAccount(req: Request, res: Response, userServices: IUserServices) {
-        const uuid = req.params.id;
+        const uuid = req.params.uuid;
         const result = await userServices.activateAccount(uuid);
-        return res.status(200).json(result);
+
+        if (result?.confirmed) {
+            return res.sendFile(path.join(__dirname, '../utils/html/indexAlreadyConfirmed.html'));
+        } else {
+            return res.sendFile(path.join(__dirname, '../utils/html/indexConfirmed.html'));
+        }
     }
 }
 

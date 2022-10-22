@@ -7,7 +7,7 @@ import userServices from "./services/UserServices";
 const routes = Router();
 
 routes.get('/', (req: Request, res: Response) => {
-    res.send('Coworking Book Server-side')
+    res.send('Coworking Book Server')
 })
 
 
@@ -19,7 +19,7 @@ routes.get('/user/:email', (req: Request, res: Response) => {
     userControllers.checkEmail(req, res, userServices);
 })
 
-routes.put('/user/active/:id', (req: Request, res: Response) => {
+routes.get('/user/active/:uuid', (req: Request, res: Response) => {
     userControllers.activateAccount(req, res, userServices);
 });
 
