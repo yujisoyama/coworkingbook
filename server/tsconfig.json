@@ -18,6 +18,7 @@
       "forceConsistentCasingInFileNames": true,
       "noImplicitAny": true,
       "strictPropertyInitialization": false,
+      "typeRoots": ["./src/@types"],
    },
    "include": ["src/**/*"],
    "exclude": ["node_modules", "build"],

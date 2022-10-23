@@ -1,10 +1,17 @@
 import { User } from "../entities/User";
-import { sendEmail } from "../mail";
+import { sendEmail } from "../utils/mail";
 import { userRepository } from "../repositories/UserRepository";
 import IUserServices, { UserSaveRequest } from "./IUserServices";
 
+import "dotenv/config";
+import bcrypt from 'bcrypt'
+import jwt from "jsonwebtoken";
+
 class UserServices implements IUserServices {
-    async save({ fullname, email, hashedPassword, company, role }: UserSaveRequest): Promise<User> {
+    private jwtPass = process.env.JWT_PASS as string;
+
+    async save({ fullname, email, password, company, role }: UserSaveRequest): Promise<User> {
+        const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = userRepository.create({
             fullname,
             email,
@@ -46,7 +53,30 @@ class UserServices implements IUserServices {
 
             return user;
         }
+    }
 
+    async login(email: string, password: string): Promise<object | undefined> {
+        const user = await userRepository.findOneBy({ email });
+        if (!user) {
+            return undefined;
+        }
+
+        const verifyPass = await bcrypt.compare(password, user.password);
+        if (!verifyPass) {
+            return undefined;
+        }
+
+        const token = jwt.sign({ id: user.id }, this.jwtPass, { expiresIn: '8h' });
+
+        const { password: _, ...userLogin } = user;
+        return {
+            user: userLogin,
+            token: token
+        }
+    }
+
+    async getProfile(authorization: string): Promise<object | null> {
+        return null;
     }
 }
 
