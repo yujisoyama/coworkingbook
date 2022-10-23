@@ -17,6 +17,7 @@ export const Signupform = () => {
     const [formFullName, setFormFullName] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
+    const [formError, setFormError] = useState<boolean>(false);
     let timer: number;
 
     const handleSubmit = (event: FormEvent) => {
@@ -133,6 +134,17 @@ export const Signupform = () => {
             console.log(err);
             clearTimeout(timer);
             setIsSubmitting(false);
+            setFormSubmitted(false);
+            toast.error('Error on create account, try again later', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         }
     }
 
@@ -215,8 +227,7 @@ export const Signupform = () => {
                         theme="dark"
                     />
                 </div>
-            )
-            }
+            )}
         </div>
     )
 }

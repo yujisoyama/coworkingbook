@@ -1,5 +1,5 @@
 import { SelectQueryBuilder } from "typeorm";
-import { User } from "../entity/User";
+import { User } from "../entities/User";
 
 export interface UserSaveRequest {
     fullname: string;

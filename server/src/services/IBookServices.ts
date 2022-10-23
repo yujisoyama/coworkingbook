@@ -1,6 +1,6 @@
-import { Book } from "../entity/Book";
-import { Period } from "../entity/Period";
-import { User } from "../entity/User";
+import { Book } from "../entities/Book";
+import { Period } from "../entities/Period";
+import { User } from "../entities/User";
 
 export interface BookSaveRequest {
     desk: number;

@@ -1,16 +1,20 @@
-import { resolve } from "path";
-import { User } from "../entity/User";
+import { User } from "../entities/User";
 import { sendEmail } from "../mail";
 import { userRepository } from "../repositories/UserRepository";
 import IUserServices, { UserSaveRequest } from "./IUserServices";
 
 class UserServices implements IUserServices {
     async save({ fullname, email, hashedPassword, company, role }: UserSaveRequest): Promise<User> {
-            const password = hashedPassword;
-            const newUser = userRepository.create({ fullname, email, password, company, role });
-            await userRepository.save(newUser);
-            sendEmail(newUser.uuid, newUser.email, newUser.fullname);
-            return newUser;
+        const newUser = userRepository.create({
+            fullname,
+            email,
+            password: hashedPassword,
+            company,
+            role
+        });
+        await userRepository.save(newUser);
+        sendEmail(newUser.uuid, newUser.email, newUser.fullname);
+        return newUser;
     }
 
     async checkEmail(email: string): Promise<User | undefined> {

@@ -12,7 +12,8 @@ export class UserControllers {
             const { fullname, email, password, company, role } = req.body;
             const hashedPassword = await bcrypt.hash(password, 10);
             const result = await userServices.save({ fullname, email, hashedPassword, company, role });
-            return res.status(201).json(result);
+            const {password: _, ...user} = result;
+            return res.status(201).json(user);
         } catch (error) {
             return res.status(500).json(error);
         }

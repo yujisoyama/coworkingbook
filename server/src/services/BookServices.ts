@@ -1,4 +1,4 @@
-import { Book } from "../entity/Book";
+import { Book } from "../entities/Book";
 import { bookRepository } from "../repositories/BookRepository";
 import IBookServices, { BookSaveRequest } from "./IBookServices";
 
