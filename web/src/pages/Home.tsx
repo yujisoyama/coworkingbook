@@ -23,18 +23,24 @@ export const Home = () => {
         setIsSubmitting(true);
         const loginData = new FormData(event.target as HTMLFormElement);
         const loginForm = Object.fromEntries(loginData);
-        timer = setTimeout(async () => {
-            const loginStatusCode: number = await login(loginForm);
-            if (loginStatusCode === 401) {
-                setLoginInvalid(true);
-            }
-            if (loginStatusCode === 405) {
-                setLoginActivate(true);
-            }
-            if (loginStatusCode === 200) {
-                navigate('/dashboard');
-            }
-        }, 1500);
+        try {
+            timer = setTimeout(async () => {
+                const loginStatusCode: number = await login(loginForm);
+                setIsSubmitting(false);
+                if (loginStatusCode === 401) {
+                    setLoginInvalid(true);
+                }
+                if (loginStatusCode === 405) {
+                    setLoginActivate(true);
+                }
+                if (loginStatusCode === 200) {
+                    navigate('/dashboard');
+                }
+            }, 1500);
+        } catch (error) {
+            setIsSubmitting(false);
+            console.log(error);
+        }
     }
 
     const handleForgotPass = (event: FormEvent) => {
