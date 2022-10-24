@@ -1,14 +1,16 @@
 import { EnvelopeSimple, Lock, NotePencil, IdentificationCard, Buildings, ShareNetwork, PaperPlaneTilt } from "phosphor-react";
 import { ThreeDots } from "react-loader-spinner";
 import { Link } from "react-router-dom";
-import { Input } from "../components/Input"
+import { Input } from "./Input"
 import { FormEvent, useState } from "react";
-import { api } from "../Api";
+
+import { createAccount } from "../utils/createAccount";
+import { checkEmailAlreadyUsing } from "../utils/CheckEmailAlreadyUsing";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const Signupform = () => {
+export const SignUpForm = () => {
 
     const [requiredFullName, setRequireFullName] = useState<string>('false');
     const [requiredEmail, setRequireEmail] = useState<string>('false');
@@ -17,7 +19,6 @@ export const Signupform = () => {
     const [formFullName, setFormFullName] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
-    const [formError, setFormError] = useState<boolean>(false);
     let timer: number;
 
     const handleSubmit = (event: FormEvent) => {
@@ -78,73 +79,34 @@ export const Signupform = () => {
             setRequireFullName('false');
             setRequireEmail('false');
             setRequirePassword('false');
-            if (await checkEmailAlreadyUsing(form)) {
-                toast.warn('This mail already being used', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                });
-                setRequireEmail('true');
+            try {
+                if (await checkEmailAlreadyUsing(form)) {
+                    toast.warn('This mail already being used', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                    setRequireEmail('true');
+                    clearTimeout(timer);
+                    setIsSubmitting(false);
+                } else {
+                    await createAccount(form);
+                    clearTimeout(timer);
+                    setFormEmail(form.email.toString());
+                    setFormFullName(form.fullname.toString());
+                    setIsSubmitting(false);
+                    setFormSubmitted(true);
+                }
+            } catch (error) {
+                console.log(error);
                 clearTimeout(timer);
                 setIsSubmitting(false);
-            } else {
-                signUp(form);
             }
-        }
-    }
-
-    const checkEmailAlreadyUsing = async (form: { [k: string]: FormDataEntryValue; }): Promise<boolean> => {
-        let emailAlreadyUsing: boolean = false;
-        try {
-            await api.get(`/user/${form.email}`).then((res) => {
-                if (res.data) {
-                    emailAlreadyUsing = true;
-                } else {
-                    emailAlreadyUsing = false;
-                }
-            })
-        } catch (err) {
-            console.log(err);
-            clearTimeout(timer);
-            setIsSubmitting(false);
-        }
-        return emailAlreadyUsing;
-    }
-
-    const signUp = async (form: { [k: string]: FormDataEntryValue; }) => {
-        try {
-            await api.post('/user', {
-                fullname: form.fullname,
-                email: form.email,
-                password: form.password,
-                company: form.company,
-                role: form.role
-            })
-            clearTimeout(timer);
-            setFormEmail(form.email.toString());
-            setFormFullName(form.fullname.toString());
-            setIsSubmitting(false);
-            setFormSubmitted(true);
-        } catch (err) {
-            console.log(err);
-            clearTimeout(timer);
-            setIsSubmitting(false);
-            setFormSubmitted(false);
-            toast.error('Error on create account, try again later', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
         }
     }
 

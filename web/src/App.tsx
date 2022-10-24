@@ -1,18 +1,21 @@
 import './styles/main.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Home } from './pages/Home'
-import { Book } from './pages/Book'
-import { Signup } from './pages/Signup'
+import { SignUp } from './pages/Signup'
+import { AuthProvider } from './context/Auth'
+import { Dashboard } from './pages/Dashboard'
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/book" element={<Book />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   )
 }
 

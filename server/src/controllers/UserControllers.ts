@@ -48,9 +48,14 @@ class UserControllers {
 
             if (!result) {
                 res.status(401).json('Email or Password is invalid.');
+            } else {
+                if (!result?.user.confirmed) {
+                    res.status(405).json('This account needs to be activated')
+                } else {
+                    res.status(200).json(result);
+                }
             }
 
-            res.status(200).json(result);
         } catch (error) {
             return res.status(500).json(error);
         }
