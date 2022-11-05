@@ -1,6 +1,18 @@
 import { createContext, useState } from 'react';
-import { IPropsUserContext, IUserContext, USER_DEFAULT } from '../@types/UserContext';
+import { IPropsUserContext, IUserContext } from '../@types/UserContext';
 import { api } from '../Api';
+
+export const USER_DEFAULT = {
+    user: {
+        userId: 0,
+        userFullname: '',
+        userEmail: '',
+        userCompany: '',
+        userRole: '',
+    },
+    setUser: () => { },
+    login: (form: { [k: string]: FormDataEntryValue; }): Promise<number> => { return Promise.resolve(200) },
+};
 
 export const UserContext = createContext<IPropsUserContext>(USER_DEFAULT);
 
@@ -25,7 +37,7 @@ export const UserProvider = (props: { children: string | number | boolean | Reac
         }
     }
     return (
-        <UserContext.Provider value={{user, setUser, login}}>
+        <UserContext.Provider value={{ user, setUser, login }}>
             {props.children}
         </UserContext.Provider>
     )
