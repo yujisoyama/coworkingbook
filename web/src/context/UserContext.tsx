@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { IPropsUserContext, IUserContext } from '../@types/UserContext';
 import { api } from '../Api';
 
@@ -42,3 +42,5 @@ export const UserProvider = (props: { children: string | number | boolean | Reac
         </UserContext.Provider>
     )
 }
+
+export const useUser = () => useContext(UserContext);

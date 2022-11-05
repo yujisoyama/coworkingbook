@@ -1,15 +1,15 @@
 import { BriefcaseMetal, EnvelopeSimple, Lock } from "phosphor-react"
-import { FormEvent, useContext, useState } from "react"
+import { FormEvent, useState } from "react"
 import { ThreeDots } from "react-loader-spinner"
 import { Link, useNavigate } from "react-router-dom"
-import { UserContext } from "../context/UserContext"
+import { useUser } from "../context/UserContext"
 import { Input } from "./Input"
 
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 export const LoginForm = () => {
-    const { login } = useContext(UserContext);
+    const { login } = useUser();
     const [loginInvalid, setLoginInvalid] = useState<boolean>(false);
     const [loginActivate, setLoginActivate] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
