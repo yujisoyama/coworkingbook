@@ -14,7 +14,6 @@ class UserControllers {
         } catch (error) {
             return res.status(500).json(error);
         }
-
     }
 
     async checkEmail(req: Request, res: Response, userServices: IUserServices) {
@@ -55,7 +54,6 @@ class UserControllers {
                     res.status(200).json(result);
                 }
             }
-
         } catch (error) {
             return res.status(500).json(error);
         }

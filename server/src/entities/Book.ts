@@ -15,7 +15,7 @@ export class Book {
     @Column({ type: 'int', nullable: false })
     desk: number
 
-    @OneToOne(() => Period)
+    @ManyToOne(() => Period, period => period.id)
     @JoinColumn({ name: 'period_id' })
     period: Period
 

@@ -5,18 +5,19 @@ import { Input } from "../components/Input"
 
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import { FormEvent, useState } from "react"
+import { FormEvent, useContext, useState } from "react"
 import { ThreeDots } from "react-loader-spinner"
-
-import { login } from "../utils/Login";
-
+import { UserContext } from "../context/UserContext"
 
 export const Home = () => {
+    const { login } = useContext(UserContext);
+
     const [loginInvalid, setLoginInvalid] = useState<boolean>(false);
     const [loginActivate, setLoginActivate] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     let timer: number;
     const navigate = useNavigate();
+
 
     const handleLogin = async (event: FormEvent) => {
         event.preventDefault();
@@ -124,3 +125,4 @@ export const Home = () => {
         </div>
     )
 }
+

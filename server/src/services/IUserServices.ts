@@ -1,7 +1,7 @@
 import { User } from "../entities/User";
 import { Book } from "../entities/Book";
 
-export interface UserSaveRequest {
+export interface IUserSaveRequest {
     fullname: string;
     email: string;
     password: string;
@@ -9,7 +9,7 @@ export interface UserSaveRequest {
     role: string
 }
 
-export interface UserLogin {
+export interface IUserLogin {
     user: {
         id: number;
         uuid: string;
@@ -26,9 +26,9 @@ export interface UserLogin {
 }
 
 export default interface IUserServices {
-    save({ fullname, email, password, company, role }: UserSaveRequest): Promise<User>;
+    save({ fullname, email, password, company, role }: IUserSaveRequest): Promise<User>;
     checkEmail(email: string): Promise<User | undefined>;
     activateAccount(uuid: string): Promise<User | null>;
-    login(email: string, password: string): Promise<UserLogin | null>;
+    login(email: string, password: string): Promise<IUserLogin | null>;
     getProfile(authorization: string): Promise<object | null>;
 }

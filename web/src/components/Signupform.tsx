@@ -5,7 +5,7 @@ import { Input } from "./Input"
 import { FormEvent, useState } from "react";
 
 import { createAccount } from "../utils/createAccount";
-import { checkEmailAlreadyUsing } from "../utils/CheckEmailAlreadyUsing";
+import { checkEmailAlreadyUsing } from "../utils/checkEmailAlreadyUsing";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

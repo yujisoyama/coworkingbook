@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Book } from "./Book";
 
 @Entity('period_type')
 export class Period {
@@ -7,6 +8,9 @@ export class Period {
 
     @Column({ type: 'text', nullable: false })
     type: string
-    //'fullday', 'morning', 'afternoon'
+    //'morning', 'afternoon', 'fullday'
+
+    @OneToMany(() => Book, book => book.period)
+    books: Book[]
 
 }

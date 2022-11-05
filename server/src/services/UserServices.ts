@@ -1,7 +1,7 @@
 import { User } from "../entities/User";
 import { sendEmail } from "../utils/mail";
 import { userRepository } from "../repositories/UserRepository";
-import IUserServices, { UserLogin, UserSaveRequest } from "./IUserServices";
+import IUserServices, { IUserLogin, IUserSaveRequest } from "./IUserServices";
 
 import "dotenv/config";
 import bcrypt from 'bcrypt'
@@ -10,7 +10,7 @@ import jwt from "jsonwebtoken";
 class UserServices implements IUserServices {
     private jwtPass = process.env.JWT_PASS as string;
 
-    async save({ fullname, email, password, company, role }: UserSaveRequest): Promise<User> {
+    async save({ fullname, email, password, company, role }: IUserSaveRequest): Promise<User> {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = userRepository.create({
             fullname,
@@ -55,7 +55,7 @@ class UserServices implements IUserServices {
         }
     }
 
-    async login(email: string, password: string): Promise<UserLogin | null> {
+    async login(email: string, password: string): Promise<IUserLogin | null> {
         const user = await userRepository.findOneBy({ email });
         if (!user) {
             return null;

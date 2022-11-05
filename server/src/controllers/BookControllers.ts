@@ -4,12 +4,13 @@ import IBookServices from "../services/IBookServices";
 
 class BookControllers {
     async create(req: Request, res: Response, bookServices: IBookServices) {
-        const { desk, period, booking_day, user } = req.body;
-        const result = await bookServices.save({ desk, period, booking_day, user });
-        if (result instanceof Error) {
-            return res.status(400).json(result.message);
+        try {
+            const { desk, period, booking_day, user } = req.body;
+            const result = await bookServices.save({ desk, period, booking_day, user });
+            return res.status(201).json(result);
+        } catch (error) {
+            return res.status(500).json(error);
         }
-        return res.status(201).json(result);
     }
 }
 
