@@ -23,7 +23,7 @@ export const UserContext = createContext<IPropsUserContext>(USER_DEFAULT);
 
 export const UserProvider = (props: any) => {
     const [user, setUser] = useState<IUserContext>(USER_DEFAULT.user);
-    const [token, setToken] = useState<string>(localStorage.getItem("token") || '[]');
+    const [token, setToken] = useState<string>(localStorage.getItem("token") || '');
     const [authenticated, setAuthenticated] = useState<boolean>(false);
 
     const login = async (form: { [k: string]: FormDataEntryValue; }): Promise<number> => {
