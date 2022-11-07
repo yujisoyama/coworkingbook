@@ -44,6 +44,7 @@ class UserControllers {
         try {
             const { email, password } = req.body;
             const result = await userServices.login(email, password);
+            const token = result?.token;
 
             if (!result) {
                 res.status(401).json('Email or Password is invalid.');
@@ -51,7 +52,7 @@ class UserControllers {
                 if (!result?.user.confirmed) {
                     res.status(405).json('This account needs to be activated')
                 } else {
-                    res.status(200).json(result);
+                    res.status(200).json(token);
                 }
             }
         } catch (error) {

@@ -4,13 +4,11 @@ import { Home } from './pages/Home'
 import { SignUp } from './pages/SignUp'
 import { Dashboard } from './pages/Dashboard'
 
-import { AuthProvider } from './context/AuthContext'
 import { UserProvider } from './context/UserContext'
 
 function App() {
   return (
-    <UserProvider>
-      <AuthProvider>
+      <UserProvider>
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -18,9 +16,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </Router>
-      </AuthProvider>
-    </UserProvider>
+      </UserProvider>
   )
 }
-
 export default App

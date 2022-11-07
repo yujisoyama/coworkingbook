@@ -30,5 +30,4 @@ export default interface IUserServices {
     checkEmail(email: string): Promise<User | undefined>;
     activateAccount(uuid: string): Promise<User | null>;
     login(email: string, password: string): Promise<IUserLogin | null>;
-    getProfile(authorization: string): Promise<object | null>;
 }

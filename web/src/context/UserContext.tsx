@@ -4,20 +4,27 @@ import { api } from '../Api';
 
 export const USER_DEFAULT = {
     user: {
-        userId: 0,
-        userFullname: '',
-        userEmail: '',
-        userCompany: '',
-        userRole: '',
+        id: 0,
+        fullname: '',
+        email: '',
+        company: '',
+        role: '',
     },
+    token: '',
+    authenticated: false,
     setUser: () => { },
-    login: (form: { [k: string]: FormDataEntryValue; }): Promise<number> => { return Promise.resolve(200) },
+    setToken: () => { },
+    setAuthenticated: () => { },
+    login: () => { return Promise.resolve(200) },
+    getProfile: () => { }
 };
 
 export const UserContext = createContext<IPropsUserContext>(USER_DEFAULT);
 
-export const UserProvider = (props: { children: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => {
+export const UserProvider = (props: any) => {
     const [user, setUser] = useState<IUserContext>(USER_DEFAULT.user);
+    const [token, setToken] = useState<string>(localStorage.getItem("token") || '[]');
+    const [authenticated, setAuthenticated] = useState<boolean>(false);
 
     const login = async (form: { [k: string]: FormDataEntryValue; }): Promise<number> => {
         let statusCode: number = 0;
@@ -27,6 +34,8 @@ export const UserProvider = (props: { children: string | number | boolean | Reac
                 password: form.password,
             }).then((res) => {
                 statusCode = res.status;
+                localStorage.setItem("token", res.data)
+                setToken(res.data);
             }).catch((error) => {
                 statusCode = error.response.status;
             })
@@ -36,8 +45,32 @@ export const UserProvider = (props: { children: string | number | boolean | Reac
             return 500;
         }
     }
+
+    const getProfile = async (token: string) => {
+        try {
+            await api.get('/profile', {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then(res => {
+                const { id, fullname, email, company, role } = res.data;
+                setUser({
+                    id,
+                    fullname,
+                    email,
+                    company,
+                    role
+                })
+                
+
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
-        <UserContext.Provider value={{ user, setUser, login }}>
+        <UserContext.Provider value={{ user, token, authenticated, setUser, setToken, setAuthenticated, login, getProfile }}>
             {props.children}
         </UserContext.Provider>
     )

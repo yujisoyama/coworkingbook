@@ -75,9 +75,6 @@ class UserServices implements IUserServices {
         }
     }
 
-    async getProfile(authorization: string): Promise<object | null> {
-        return null;
-    }
 }
 
 const userServices: UserServices = new UserServices();

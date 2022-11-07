@@ -9,7 +9,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 export const LoginForm = () => {
-    const { login } = useUser();
+    const { user, token, login, getProfile } = useUser();
     const [loginInvalid, setLoginInvalid] = useState<boolean>(false);
     const [loginActivate, setLoginActivate] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -86,10 +86,10 @@ export const LoginForm = () => {
                         <span><Lock className="inline absolute top-4 left-5" size={24} /></span>
                         <Input name="password" id="password" type='password' placeholder="Password" warning={'false'} />
                     </div>
-                    {loginInvalid && (<div className="text-center text-buttonText w-64 h-9 mx-auto bg-[#e7b3b3] border-attention border-2 font-open font-bold text-sm pt-[0.4rem]">
+                    {loginInvalid && (<div className="text-center rounded-lg text-buttonText w-64 h-9 mx-auto bg-[#e7b3b3] border-attention border-2 font-open font-bold text-sm pt-[0.4rem]">
                         Email or Password is invalid.
                     </div>)}
-                    {loginActivate && (<div className="text-center text-buttonText w-64 h-12 mx-auto bg-[#e7b3b3] border-attention border-2 font-open font-bold text-sm pt-[0.2rem]">
+                    {loginActivate && (<div className="text-center rounded-lg text-buttonText w-64 h-12 mx-auto bg-[#e7b3b3] border-attention border-2 font-open font-bold text-sm pt-[0.2rem]">
                         Account needs to be activated. Check your email.
                     </div>)}
                     <div className="w-40 ml-[11.5rem] mobileHome:ml-[10rem]">

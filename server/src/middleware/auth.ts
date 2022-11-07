@@ -20,11 +20,11 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
             if (!user) {
                 return res.status(401).json('Not authorized')
             }
-            const { password: _, ...loggedUser } = user;  
+            const { password: _, ...loggedUser } = user; 
             req.user = loggedUser;
             next();
         }
     } catch (error) {
-        return res.status(500).json(error);
+        return res.status(401).json(error);
     }
 }
