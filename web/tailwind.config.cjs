@@ -20,9 +20,10 @@ module.exports = {
       attention: '#e16162'
     },
     screens: {
-      'mobileHome': {'max': '1100px'},
-      'mobileSignup': {'max': '500px'},
-      'mobileSignupConfirm': {'max': '630px'}
+      'mobile': { 'max': '500px' },
+      'mobileHome': { 'max': '1100px' },
+      'mobileSignup': { 'max': '500px' },
+      'mobileSignupConfirm': { 'max': '630px' }
     },
     fontFamily: {
       noto: ['Noto Sans', 'sans-serif'],

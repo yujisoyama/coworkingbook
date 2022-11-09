@@ -1,15 +1,9 @@
-import { useUser } from "../context/UserContext";
+import { Header } from "../components/Header"
 
 export const Dashboard = () => {
-    const { user } = useUser();
-
     return (
-        <div className="bg-background w-screen h-screen mobileHome:h-full mobileHome:w-full mobileHome:bg-loginmobile">
-            <p>{user.id}</p>
-            <p>{user.email}</p>
-            <p>{user.fullname}</p>
-            <p>{user.company}</p>
-            <p>{user.role}</p>
+        <div className="bg-background bg-cover bg-no-repeat w-screen h-screen">
+            <Header />
         </div>
     )
 }
