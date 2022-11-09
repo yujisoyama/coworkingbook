@@ -13,9 +13,11 @@ export const USER_DEFAULT = {
     },
     token: '',
     authenticated: false,
+    sessionExpired: false,
     setUser: () => { },
     setToken: () => { },
     setAuthenticated: () => { },
+    setSessionExpired: () => { },
     login: () => { return Promise.resolve(200) },
     getProfile: () => { }
 };
@@ -26,6 +28,7 @@ export const UserProvider = (props: any) => {
     const [user, setUser] = useState<IUserContext>(USER_DEFAULT.user);
     const [token, setToken] = useState<string>(localStorage.getItem("token") || '');
     const [authenticated, setAuthenticated] = useState<boolean | undefined>(undefined);
+    const [sessionExpired, setSessionExpired] = useState<boolean>(false);
 
     const login = async (form: { [k: string]: FormDataEntryValue; }): Promise<number> => {
         let statusCode: number = 0;
@@ -64,16 +67,18 @@ export const UserProvider = (props: any) => {
                     role
                 })
                 setAuthenticated(true);
+                setSessionExpired(false);
             });
         } catch (error) {
             console.log(error);
             localStorage.setItem("token", '')
             setAuthenticated(false);
+            setSessionExpired(true);
         }
     }
 
     return (
-        <UserContext.Provider value={{ user, token, authenticated, setUser, setToken, setAuthenticated, login, getProfile }}>
+        <UserContext.Provider value={{ user, token, authenticated, sessionExpired, setUser, setToken, setAuthenticated, setSessionExpired,login, getProfile }}>
             {props.children}
         </UserContext.Provider>
     )

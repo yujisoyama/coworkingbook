@@ -9,7 +9,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 export const LoginForm = () => {
-    const { login } = useUser();
+    const { sessionExpired, login } = useUser();
     const [loginInvalid, setLoginInvalid] = useState<boolean>(false);
     const [loginActivate, setLoginActivate] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -78,6 +78,9 @@ export const LoginForm = () => {
             </div>
             <div>
                 <form onSubmit={handleLogin} className="mt-5 flex flex-col gap-4 relative">
+                    {sessionExpired && (<div className="text-center rounded-lg text-buttonText w-80 h-9 mx-auto bg-[#e7b3b3] border-attention border-2 font-open font-bold text-sm pt-[0.4rem]">
+                        Your session expired, please log in again.
+                    </div>)}
                     <div className="relative mx-auto">
                         <span><EnvelopeSimple className="inline absolute top-4 left-5" size={24} /></span>
                         <Input name="email" id="email" type='text' placeholder="Email" warning={'false'} />
