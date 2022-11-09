@@ -1,15 +1,10 @@
-import { useEffect } from "react"
 import { useUser } from "../context/UserContext";
 
 export const Dashboard = () => {
-    const { user, token, getProfile } = useUser();
-
-    useEffect(() => {
-        getProfile(token);
-    }, [])
+    const { user } = useUser();
 
     return (
-        <div>
+        <div className="bg-background w-screen h-screen mobileHome:h-full mobileHome:w-full mobileHome:bg-loginmobile">
             <p>{user.id}</p>
             <p>{user.email}</p>
             <p>{user.fullname}</p>

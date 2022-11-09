@@ -18,7 +18,8 @@ routes.post('/book', (req: Request, res: Response) => { bookControllers.create(r
 
 routes.use(authMiddleware);
 //routes.get('/profile', authMiddleware, (req: Request, res: Response) => { userControllers.getProfile(req, res, userServices) });
-routes.get('/profile', (req: Request, res: Response) => { userControllers.getProfile(req, res, userServices) });
+routes.get('/profile', (req: Request, res: Response) => { userControllers.getProfile(req, res) });
+
 
 
 export default routes;

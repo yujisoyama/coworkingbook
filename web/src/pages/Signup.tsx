@@ -1,16 +1,13 @@
-import { EnvelopeSimple, Lock, NotePencil, IdentificationCard, Buildings, ShareNetwork, PaperPlaneTilt } from "phosphor-react";
-import { ThreeDots } from "react-loader-spinner";
-import { Link } from "react-router-dom";
 import { FormEvent, useState } from "react";
+
 import { createAccount } from "../utils/createAccount";
 import { checkEmailAlreadyUsing } from "../utils/checkEmailAlreadyUsing";
-import { Input } from "../components/Input";
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { inputEmpty, verifyEmail } from "../utils/formValidate";
 import { SignUpConfirm } from "../components/SignUpConfirm";
 import { SignUpForm } from "../components/SignUpForm";
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const SignUp = () => {
     const [requiredFullName, setRequireFullName] = useState<string>('false');

@@ -9,7 +9,7 @@ export interface IUserContext {
 export interface IPropsUserContext {
     user: IUserContext;
     token: string;
-    authenticated: boolean;
+    authenticated: boolean | undefined;
     setUser: React.Dispatch<React.SetStateAction<IUserContext>>;
     setToken: React.Dispatch<React.SetStateAction<UserType>>;
     setAuthenticated: React.Dispatch<React.SetStateAction<UserType>>;

@@ -9,7 +9,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 export const LoginForm = () => {
-    const { user, token, login, getProfile } = useUser();
+    const { login } = useUser();
     const [loginInvalid, setLoginInvalid] = useState<boolean>(false);
     const [loginActivate, setLoginActivate] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);

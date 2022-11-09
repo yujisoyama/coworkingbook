@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { IPropsUserContext, IUserContext } from '../@types/UserContext';
 import { api } from '../Api';
 
@@ -24,10 +25,11 @@ export const UserContext = createContext<IPropsUserContext>(USER_DEFAULT);
 export const UserProvider = (props: any) => {
     const [user, setUser] = useState<IUserContext>(USER_DEFAULT.user);
     const [token, setToken] = useState<string>(localStorage.getItem("token") || '');
-    const [authenticated, setAuthenticated] = useState<boolean>(false);
+    const [authenticated, setAuthenticated] = useState<boolean | undefined>(undefined);
 
     const login = async (form: { [k: string]: FormDataEntryValue; }): Promise<number> => {
         let statusCode: number = 0;
+        setAuthenticated(undefined);
         try {
             await api.post('/login', {
                 email: form.email,
@@ -61,11 +63,12 @@ export const UserProvider = (props: any) => {
                     company,
                     role
                 })
-                
-
-            })
+                setAuthenticated(true);
+            });
         } catch (error) {
             console.log(error);
+            localStorage.setItem("token", '')
+            setAuthenticated(false);
         }
     }
 

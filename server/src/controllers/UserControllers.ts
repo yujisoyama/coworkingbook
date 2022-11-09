@@ -60,7 +60,7 @@ class UserControllers {
         }
     }
 
-    async getProfile(req: Request, res: Response, userServices: IUserServices) {
+    async getProfile(req: Request, res: Response) {
         try {
             return res.json(req.user);
         } catch (error) {
