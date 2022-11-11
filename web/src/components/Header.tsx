@@ -9,7 +9,7 @@ export const Header = () => {
   return (
     <div className="bg-backgroundLight px-3 h-16 font-open flex flex-row items-center" >
       <Settings />
-      <div className="ml-2 text-2xl font-bold text-paragraph mobile:text-lg" >
+      <div className="ml-2 text-xl font-bold text-paragraph mobile:text-lg" >
         {user.fullname}
       </div>
     </div>

@@ -1,68 +1,38 @@
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import * as Tabs from '@radix-ui/react-tabs';
 import { useState } from 'react';
-
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-}
-
-
-function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
-
-function a11yProps(index: number) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
+import { BookingTab } from './BookingTab';
 
 export const DashboardTabs = () => {
-    const [value, setValue] = useState(0);
+    const [tabOpen, setTabOpen] = useState<boolean[]>([true, false, false]);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
+    const openTab = (tab: number) => {
+        const newTabOpen: boolean[] = [false, false, false];
+        newTabOpen[tab] = true;
+        setTabOpen(newTabOpen);
+    }
 
     return (
-        <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" textColor="secondary" indicatorColor="secondary">
-                    <Tab label="Item One" {...a11yProps(0)} />
-                    <Tab label="Item Two" {...a11yProps(1)} />
-                    <Tab label="Item Three" {...a11yProps(2)} />
-                </Tabs>
-            </Box>
-            <TabPanel value={value} index={0}>
-                Item One
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                Item Two
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                Item Three
-            </TabPanel>
-        </Box>
-    );
+        <Tabs.Root className="flex flex-col w-5/6 mx-auto py-8" defaultValue="booking">
+            <Tabs.List className="flex" aria-label="Manage your account">
+                <Tabs.Trigger onClick={() => openTab(0)} className={`px-4 flex h-12 items-center justify-center border-b ${tabOpen[0] ? 'text-highlight border-highlight' : 'text-paragraph border-background hover:cursor-pointer hover:text-main duration-100'} text-xl font-semibold mobile:px-2 mobile:text-sm`} value="booking">
+                    Booking
+                </Tabs.Trigger>
+                <Tabs.Trigger onClick={() => openTab(1)} className={`px-4 flex h-12 items-center justify-center border-b ${tabOpen[1] ? 'text-highlight border-highlight' : 'text-paragraph border-background hover:cursor-pointer hover:text-main duration-100'} text-xl font-semibold mobile:px-2 mobile:text-sm`} value="current">
+                    Current Bookings
+                </Tabs.Trigger>
+                <Tabs.Trigger onClick={() => openTab(2)} className={`px-4 flex h-12 items-center justify-center border-b ${tabOpen[2] ? 'text-highlight border-highlight' : 'text-paragraph border-background hover:cursor-pointer hover:text-main duration-100'} text-xl font-semibold mobile:px-2 mobile:text-sm`} value="last">
+                    Last Bookings
+                </Tabs.Trigger>
+            </Tabs.List>
+            <Tabs.Content className='h-full' value="booking">
+                <BookingTab />
+            </Tabs.Content>
+            <Tabs.Content className='h-full' value="current">
+
+            </Tabs.Content>
+            <Tabs.Content className='h-full' value="last">
+
+            </Tabs.Content>
+        </Tabs.Root>
+    )
 }

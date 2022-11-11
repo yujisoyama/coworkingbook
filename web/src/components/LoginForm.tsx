@@ -78,7 +78,7 @@ export const LoginForm = () => {
             </div>
             <div>
                 <form onSubmit={handleLogin} className="mt-5 flex flex-col gap-4 relative">
-                    {sessionExpired && (<div className="text-center rounded-lg text-buttonText w-80 h-9 mx-auto bg-[#e7b3b3] border-attention border-2 font-open font-bold text-sm pt-[0.4rem]">
+                    {sessionExpired && (<div className="text-center rounded-lg text-buttonText w-80 h-9 mx-auto bg-[#e7b3b3] border-attention border-2 font-open font-bold text-sm pt-[0.4rem] mobileHome:w-72 mobileHome:h-14">
                         Your session expired, please log in again.
                     </div>)}
                     <div className="relative mx-auto">

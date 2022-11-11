@@ -10,13 +10,15 @@ export const PrivateRoutes = () => {
         timer = setTimeout(() => getProfile(token), 2000);
     }, [authenticated])
 
-    if (authenticated === undefined) {
+    // if (authenticated === undefined) {
+    if (false) {
         return (
             <div className="bg-login bg-cover bg-no-repeat w-full h-screen mobileHome:h-full mobileHome:w-full mobileHome:bg-loginmobile">
                 <Loading />
             </div>
         )
     }
-    
-    return authenticated ? <Outlet /> : <Navigate to="/"  />
+
+    // return authenticated ? <Outlet /> : <Navigate to="/" />
+    return true ? <Outlet /> : <Navigate to="/" />
 }

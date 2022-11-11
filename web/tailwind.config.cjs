@@ -32,7 +32,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         login: "url('/assets/login-background.svg')",
-        loginmobile: "url('/assets/login-background-mobile.svg')"
+        loginmobile: "url('/assets/login-background-mobile.svg')",
       },
     },
   },
