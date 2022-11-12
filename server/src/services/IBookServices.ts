@@ -4,12 +4,13 @@ import { User } from "../entities/User";
 
 export interface IBookSaveRequest {
     type: string;
-    book_number: number;
+    booking_number: number;
     period: Period;
-    booking_day: Date;
+    booking_day: string;
     user: User;
 }
 
 export default interface IBookServices {
-    save({ type, book_number, period, booking_day, user }: IBookSaveRequest): Promise<Book>;
+    save({ type, booking_number, period, booking_day, user }: IBookSaveRequest): Promise<Book | undefined>;
+    getAvailability(booking_day: string, period: number): any;
 }

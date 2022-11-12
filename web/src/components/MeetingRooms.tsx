@@ -10,7 +10,7 @@ export const MeetingRooms = (props: IStatus) => {
 
     return (
         <div className={`relative ${props.available ? 'hover:cursor-pointer' : ''}`}>
-            <p className={`absolute top-[18px] left-1/2 -translate-x-1/2 ${text_color}`}>{props.id}</p>
+            <p className={`absolute top-[18px] left-1/2 -translate-x-1/2 ${text_color}`}>{props.booking_number}</p>
             <Presentation className="inline" size={70} color={color} weight="light" />
         </div>
     )

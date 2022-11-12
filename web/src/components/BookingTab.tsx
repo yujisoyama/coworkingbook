@@ -12,36 +12,36 @@ import { api } from '../Api';
 import { ThreeDots } from 'react-loader-spinner';
 
 export interface IStatus {
-    id: number;
+    booking_number: number;
     available: boolean;
     selected: boolean;
 }
 
 export interface IBook {
     type: string;
-    book_number: number;
+    booking_number: number;
     booking_day: string;
     period: number;
     user: number;
 }
 
 const Default_Desks: IStatus[] = [
-    { id: 1, available: false, selected: false },
-    { id: 2, available: true, selected: false },
-    { id: 3, available: true, selected: false },
-    { id: 4, available: false, selected: false },
-    { id: 5, available: true, selected: false },
-    { id: 6, available: true, selected: false },
-    { id: 7, available: true, selected: false },
-    { id: 8, available: false, selected: false },
-    { id: 9, available: true, selected: false },
-    { id: 10, available: true, selected: false }
+    { booking_number: 1, available: true, selected: false },
+    { booking_number: 2, available: true, selected: false },
+    { booking_number: 3, available: true, selected: false },
+    { booking_number: 4, available: true, selected: false },
+    { booking_number: 5, available: true, selected: false },
+    { booking_number: 6, available: true, selected: false },
+    { booking_number: 7, available: true, selected: false },
+    { booking_number: 8, available: true, selected: false },
+    { booking_number: 9, available: true, selected: false },
+    { booking_number: 10, available: true, selected: false },
 ]
 
 const Default_Rooms: IStatus[] = [
-    { id: 1, available: true, selected: false },
-    { id: 2, available: true, selected: false },
-    { id: 3, available: false, selected: false },
+    { booking_number: 1, available: true, selected: false },
+    { booking_number: 2, available: true, selected: false },
+    { booking_number: 3, available: true, selected: false },
 ]
 
 export const BookingTab = () => {
@@ -50,19 +50,20 @@ export const BookingTab = () => {
     date.setDate(date.getDate() + 14);
     const maxDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
-    const { user } = useUser();
+    const { user, token } = useUser();
     const [desks, setDesks] = useState<IStatus[]>(Default_Desks);
     const [rooms, setRooms] = useState<IStatus[]>(Default_Rooms);
-    const [book, setBook] = useState<IBook>({ type: '', book_number: 0, booking_day: minDate, period: 3, user: user.id });
+    const [book, setBook] = useState<IBook>({ type: '', booking_number: 0, booking_day: minDate, period: 3, user: user.id });
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [bookSuccess, setBookSuccess] = useState<boolean>(false);
     const [bookFail, setBookFail] = useState<boolean>(false);
+    const [bookNotAvailable, setBookNotAvailable] = useState<boolean>(false);
+    const [bookMessage, setBookMessage] = useState<string>('');
 
-
-    const selectDesk = (id: number) => {
-        if (desks[id - 1].available) {
+    const selectDesk = (booking_number: number) => {
+        if (desks[booking_number - 1].available) {
             setDesks(desks.map(desk =>
-                desk.id === id
+                desk.booking_number === booking_number
                     ? { ...desk, selected: true }
                     : { ...desk, selected: false }
             ));
@@ -71,14 +72,14 @@ export const BookingTab = () => {
                     ? { ...room, selected: false }
                     : { ...room }
             ));
-            setBook({ ...book, type: 'desk', book_number: id });
+            setBook({ ...book, type: 'desk', booking_number });
         }
     }
 
-    const selectRoom = (id: number) => {
-        if (rooms[id - 1].available) {
+    const selectRoom = (booking_number: number) => {
+        if (rooms[booking_number - 1].available) {
             setRooms(rooms.map(room =>
-                room.id === id
+                room.booking_number === booking_number
                     ? { ...room, selected: true }
                     : { ...room, selected: false }
             ));
@@ -87,7 +88,7 @@ export const BookingTab = () => {
                     ? { ...desk, selected: false }
                     : { ...desk }
             ));
-            setBook({ ...book, type: 'room', book_number: id });
+            setBook({ ...book, type: 'room', booking_number });
         }
     }
 
@@ -105,9 +106,9 @@ export const BookingTab = () => {
             case '':
                 return <p>Select a Desk or Meeting room.</p>
             case 'desk':
-                return <p>Desk number: <span className='text-highlight'>{book.book_number}</span></p>
+                return <p>Desk number: <span className='text-highlight'>{book.booking_number}</span></p>
             case 'room':
-                return <p>Meeting room number: <span className='text-highlight'>{book.book_number}</span></p>
+                return <p>Meeting room number: <span className='text-highlight'>{book.booking_number}</span></p>
         }
     }
 
@@ -125,22 +126,32 @@ export const BookingTab = () => {
     const handleBook = () => {
         setBookSuccess(false);
         setBookFail(false);
+        setBookNotAvailable(false);
         setIsSubmitting(true)
         let timer = setTimeout(async () => {
-            try {
-                await api.post('/book', book).then(res => {
-                    clearTimeout(timer);
-                    setIsSubmitting(false);
-                    setBookSuccess(true);
-                    setBookFail(false);
-                })
-            } catch (error) {
+            await api.post('/book', book, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then(res => {
+                setBookMessage(res.data);
+                setBookSuccess(true);
+                setBookFail(false);
+                setBookNotAvailable(false);
+                clearTimeout(timer);
+                setIsSubmitting(false);
+            }).catch(error => {
+                if (error.response.status === 409) {
+                    setBookMessage(error.response.data);
+                    setBookNotAvailable(true);
+                } else {
+                    setBookFail(true);
+                }
                 console.log(error);
                 clearTimeout(timer);
                 setIsSubmitting(false);
                 setBookSuccess(false);
-                setBookFail(true);
-            }
+            })
         }, 1000);
     }
 
@@ -174,15 +185,15 @@ export const BookingTab = () => {
                     <div className="h-[80%] min-w-[700px] min-h-[350px] border-background border-2 rounded-xl">
                         <div className='h-2/3 grid grid-cols-5 gap-4 justify-items-center items-center'>
                             {desks.map(desk => [
-                                <div key={desk.id} onClick={() => selectDesk(desk.id)}>
-                                    <Desks id={desk.id} available={desk.available} selected={desk.selected} />
+                                <div key={desk.booking_number} onClick={() => selectDesk(desk.booking_number)}>
+                                    <Desks booking_number={desk.booking_number} available={desk.available} selected={desk.selected} />
                                 </div>
                             ])}
                         </div>
                         <div className='h-1/3 grid grid-cols-3 justify-items-center items-center'>
                             {rooms.map(room => [
-                                <div key={room.id} onClick={() => selectRoom(room.id)}>
-                                    <MeetingRooms id={room.id} available={room.available} selected={room.selected} />
+                                <div key={room.booking_number} onClick={() => selectRoom(room.booking_number)}>
+                                    <MeetingRooms booking_number={room.booking_number} available={room.available} selected={room.selected} />
                                 </div>
                             ])}
                         </div>
@@ -207,7 +218,7 @@ export const BookingTab = () => {
                         </div>
                     </div>
                     <div className='mt-10 self-center'>
-                        <button onClick={handleBook} disabled={book.book_number === 0 || isSubmitting} className={`w-36 mx-auto h-12 rounded-full text-background font-extrabold ${book.book_number === 0 ? 'bg-disabled scale-95' : 'bg-highlight hover:bg-[#FFB340] hover:scale-105 duration-300'}`} >
+                        <button onClick={handleBook} disabled={book.booking_number === 0 || isSubmitting} className={`w-36 mx-auto h-12 rounded-full text-background font-extrabold ${book.booking_number === 0 ? 'bg-disabled scale-95' : 'bg-highlight hover:bg-[#FFB340] hover:scale-105 duration-300'}`} >
                             {isSubmitting
                                 ? <ThreeDots
                                     height="20"
@@ -223,12 +234,17 @@ export const BookingTab = () => {
                     </div>
                     {bookSuccess &&
                         <div className='mt-6 self-center border-2 border-background bg-paragraph text-background text-sm p-3 rounded-lg'>
-                            Your booking has been done!
+                            {bookMessage}
                         </div>
                     }
                     {bookFail &&
                         <div className='mt-6 self-center border-2 bg-[#e7b3b3] border-attention text-sm text-background p-3 rounded-lg'>
                             Something went wrong, try again later.
+                        </div>
+                    }
+                    {bookNotAvailable &&
+                        <div className='mt-6 self-center border-2 bg-[#e7b3b3] border-attention text-sm text-background p-3 rounded-lg'>
+                            {bookMessage}
                         </div>
                     }
                 </div>

@@ -16,14 +16,14 @@ export class Book {
     type: string;
 
     @Column({ type: 'int', nullable: false })
-    book_number: number;
+    booking_number: number;
 
     @ManyToOne(() => Period, period => period.id)
     @JoinColumn({ name: 'period_id' })
     period: Period
 
     @Column({ type: 'date', nullable: false })
-    booking_day: Date
+    booking_day: string;
 
     @CreateDateColumn()
     created_at: Date

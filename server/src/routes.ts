@@ -14,11 +14,12 @@ routes.get('/user/:email', (req: Request, res: Response) => { userControllers.ch
 routes.get('/user/active/:uuid', (req: Request, res: Response) => { userControllers.activateAccount(req, res, userServices); });
 routes.post('/login', (req: Request, res: Response) => { userControllers.login(req, res, userServices) });
 
-routes.post('/book', (req: Request, res: Response) => { bookControllers.create(req, res, bookServices); });
 
 routes.use(authMiddleware);
 //routes.get('/profile', authMiddleware, (req: Request, res: Response) => { userControllers.getProfile(req, res, userServices) });
 routes.get('/profile', (req: Request, res: Response) => { userControllers.getProfile(req, res) });
+routes.get('/available', (req: Request, res: Response) => { bookControllers.getAvailability(req, res, bookServices) });
+routes.post('/book', (req: Request, res: Response) => { bookControllers.create(req, res, bookServices); });
 
 
 
