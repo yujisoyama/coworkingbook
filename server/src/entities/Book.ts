@@ -12,8 +12,11 @@ export class Book {
     @JoinColumn({ name: 'user_id' })
     user: User
 
+    @Column({type: 'text', nullable: false})
+    type: string;
+
     @Column({ type: 'int', nullable: false })
-    desk: number
+    book_number: number;
 
     @ManyToOne(() => Period, period => period.id)
     @JoinColumn({ name: 'period_id' })

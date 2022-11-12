@@ -1,6 +1,4 @@
 import { api } from "../Api";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export const createAccount = async (form: { [k: string]: FormDataEntryValue; }) => {
     await api.post('/user', {
@@ -10,5 +8,4 @@ export const createAccount = async (form: { [k: string]: FormDataEntryValue; }) 
         company: form.company,
         role: form.role
     })
-
 }

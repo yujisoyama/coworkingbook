@@ -5,8 +5,11 @@ import FormControl from '@mui/material/FormControl';
 import { teal, yellow } from '@mui/material/colors';
 import { Circle } from 'phosphor-react';
 import { Desks } from './Desks';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { MeetingRooms } from './MeetingRooms';
+import { useUser } from '../context/UserContext';
+import { api } from '../Api';
+import { ThreeDots } from 'react-loader-spinner';
 
 export interface IStatus {
     id: number;
@@ -16,9 +19,10 @@ export interface IStatus {
 
 export interface IBook {
     type: string;
-    id: number;
-    date: string;
-    period_type: number;
+    book_number: number;
+    booking_day: string;
+    period: number;
+    user: number;
 }
 
 const Default_Desks: IStatus[] = [
@@ -37,7 +41,7 @@ const Default_Desks: IStatus[] = [
 const Default_Rooms: IStatus[] = [
     { id: 1, available: true, selected: false },
     { id: 2, available: true, selected: false },
-    { id: 3, available: true, selected: false },
+    { id: 3, available: false, selected: false },
 ]
 
 export const BookingTab = () => {
@@ -46,9 +50,14 @@ export const BookingTab = () => {
     date.setDate(date.getDate() + 14);
     const maxDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
+    const { user } = useUser();
     const [desks, setDesks] = useState<IStatus[]>(Default_Desks);
     const [rooms, setRooms] = useState<IStatus[]>(Default_Rooms);
-    const [book, setBook] = useState<IBook>({ type: '', id: 0, date: minDate, period_type: 3 });
+    const [book, setBook] = useState<IBook>({ type: '', book_number: 0, booking_day: minDate, period: 3, user: user.id });
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [bookSuccess, setBookSuccess] = useState<boolean>(false);
+    const [bookFail, setBookFail] = useState<boolean>(false);
+
 
     const selectDesk = (id: number) => {
         if (desks[id - 1].available) {
@@ -62,7 +71,7 @@ export const BookingTab = () => {
                     ? { ...room, selected: false }
                     : { ...room }
             ));
-            setBook({ ...book, type: 'desk', id: id });
+            setBook({ ...book, type: 'desk', book_number: id });
         }
     }
 
@@ -78,17 +87,17 @@ export const BookingTab = () => {
                     ? { ...desk, selected: false }
                     : { ...desk }
             ));
-            setBook({ ...book, type: 'room', id: id });
+            setBook({ ...book, type: 'room', book_number: id });
         }
     }
 
     const selectDate = (event: FormEvent<HTMLInputElement>) => {
-        setBook({ ...book, date: event.currentTarget.value });
+        setBook({ ...book, booking_day: event.currentTarget.value });
         event.preventDefault();
     }
 
     const selectPeriod = (event: FormEvent<HTMLInputElement>) => {
-        setBook({ ...book, period_type: Number(event.currentTarget.value) })
+        setBook({ ...book, period: Number(event.currentTarget.value) })
     }
 
     const renderDeskOrRoom = (type: string) => {
@@ -96,9 +105,9 @@ export const BookingTab = () => {
             case '':
                 return <p>Select a Desk or Meeting room.</p>
             case 'desk':
-                return <p>Desk number: <span className='text-highlight'>{book.id}</span></p>
+                return <p>Desk number: <span className='text-highlight'>{book.book_number}</span></p>
             case 'room':
-                return <p>Meeting room number: <span className='text-highlight'>{book.id}</span></p>
+                return <p>Meeting room number: <span className='text-highlight'>{book.book_number}</span></p>
         }
     }
 
@@ -113,6 +122,27 @@ export const BookingTab = () => {
         }
     }
 
+    const handleBook = () => {
+        setBookSuccess(false);
+        setBookFail(false);
+        setIsSubmitting(true)
+        let timer = setTimeout(async () => {
+            try {
+                await api.post('/book', book).then(res => {
+                    clearTimeout(timer);
+                    setIsSubmitting(false);
+                    setBookSuccess(true);
+                    setBookFail(false);
+                })
+            } catch (error) {
+                console.log(error);
+                clearTimeout(timer);
+                setIsSubmitting(false);
+                setBookSuccess(false);
+                setBookFail(true);
+            }
+        }, 1000);
+    }
 
     return (
         <div className="mt-[3%] w-full min-h-[500px] bg-backgroundLight rounded-xl flex flex-col text-paragraph font-semibold text-lg px-9 py-5">
@@ -172,15 +202,35 @@ export const BookingTab = () => {
                         <hr />
                         <div className='mt-4 flex flex-col gap-2 text-base'>
                             {renderDeskOrRoom(book.type)}
-                            <p>Date: <span className='text-highlight'>{book.date}</span></p>
-                            {renderPeriod(book.period_type)}
+                            <p>Date: <span className='text-highlight'>{book.booking_day}</span></p>
+                            {renderPeriod(book.period)}
                         </div>
                     </div>
                     <div className='mt-10 self-center'>
-                        <button disabled={book.id === 0} className={`w-36 mx-auto h-12 rounded-full text-background font-extrabold ${book.id === 0 ? 'bg-disabled scale-95' : 'bg-highlight hover:bg-[#FFB340] hover:scale-105 duration-300'}`} type="submit">
-                            Book
+                        <button onClick={handleBook} disabled={book.book_number === 0 || isSubmitting} className={`w-36 mx-auto h-12 rounded-full text-background font-extrabold ${book.book_number === 0 ? 'bg-disabled scale-95' : 'bg-highlight hover:bg-[#FFB340] hover:scale-105 duration-300'}`} >
+                            {isSubmitting
+                                ? <ThreeDots
+                                    height="20"
+                                    width="40"
+                                    radius="2"
+                                    color="#001e1d"
+                                    ariaLabel="three-dots-loading"
+                                    wrapperStyle={{ justifyContent: "center" }}
+                                    visible={true}
+                                />
+                                : 'Book'}
                         </button>
                     </div>
+                    {bookSuccess &&
+                        <div className='mt-6 self-center border-2 border-background bg-paragraph text-background text-sm p-3 rounded-lg'>
+                            Your booking has been done!
+                        </div>
+                    }
+                    {bookFail &&
+                        <div className='mt-6 self-center border-2 bg-[#e7b3b3] border-attention text-sm text-background p-3 rounded-lg'>
+                            Something went wrong, try again later.
+                        </div>
+                    }
                 </div>
             </div>
         </div>

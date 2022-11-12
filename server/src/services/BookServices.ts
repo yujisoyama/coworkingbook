@@ -4,9 +4,10 @@ import IBookServices, { IBookSaveRequest } from "./IBookServices";
 
 
 class BookServices implements IBookServices {
-    async save({ desk, period, booking_day, user }: IBookSaveRequest): Promise<Book> {
+    async save({ type, book_number, period, booking_day, user }: IBookSaveRequest): Promise<Book> {
         const newBook = bookRepository.create({ 
-            desk, 
+            type,
+            book_number, 
             period, 
             booking_day, 
             user 

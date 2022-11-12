@@ -11,7 +11,7 @@ export const Desks = (props: IStatus) => {
 
     return (
         <div className={`relative ${props.available ? 'hover:cursor-pointer' : ''}`}>
-            <p className={`absolute top-[12.5px] left-1/2 -translate-x-1/2 ${text_color}`}>{props.id}</p>
+            <p className={`absolute top-[13px] left-1/2 -translate-x-1/2 ${text_color}`}>{props.id}</p>
             <Desktop className="inline" size={70} color={color} weight="light" />
         </div>
     )
