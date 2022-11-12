@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect } from "react";
 import { Outlet, Navigate } from "react-router-dom"
 import { useUser } from "../context/UserContext"
-import { Loading } from "./Loading";
+import { Loading } from "./Dashboard/Loading";
 
 export const PrivateRoutes = () => {
     const { token, authenticated, getProfile } = useUser();

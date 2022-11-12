@@ -1,5 +1,5 @@
-import { DashboardTabs } from "../components/DashboardTabs"
-import { Header } from "../components/Header"
+import { DashboardTabs } from "../components/Dashboard/DashboardTabs"
+import { Header } from "../components/Dashboard/Header"
 
 export const Dashboard = () => {
     return (

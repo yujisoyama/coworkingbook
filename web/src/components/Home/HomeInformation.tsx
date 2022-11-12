@@ -1,4 +1,4 @@
-import workGif from "../../assets/work.gif"
+import workGif from "../../../assets/work.gif"
 
 export const HomeInformation = () => {
     return (

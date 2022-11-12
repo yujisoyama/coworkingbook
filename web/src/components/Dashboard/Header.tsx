@@ -1,5 +1,5 @@
 import { Buildings } from "phosphor-react"
-import { useUser } from "../context/UserContext";
+import { useUser } from "../../context/UserContext";
 import { Settings } from "./Settings"
 
 

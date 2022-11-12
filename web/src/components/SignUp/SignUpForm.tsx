@@ -3,7 +3,7 @@ import { FormEvent } from "react"
 import { ThreeDots } from "react-loader-spinner"
 import { Link } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
-import { Input } from "./Input"
+import { Input } from "../Input"
 
 interface ISignUpFormProps {
     requiredFullName: string;

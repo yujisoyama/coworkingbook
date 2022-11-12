@@ -7,8 +7,8 @@ import { Circle } from 'phosphor-react';
 import { Desks } from './Desks';
 import { FormEvent, useEffect, useState } from 'react';
 import { MeetingRooms } from './MeetingRooms';
-import { useUser } from '../context/UserContext';
-import { api } from '../Api';
+import { useUser } from '../../../context/UserContext';
+import { api } from '../../../Api';
 import { ThreeDots } from 'react-loader-spinner';
 
 export interface IStatus {
@@ -220,15 +220,7 @@ export const BookingTab = () => {
                     <div className='mt-10 self-center'>
                         <button onClick={handleBook} disabled={book.booking_number === 0 || isSubmitting} className={`w-36 mx-auto h-12 rounded-full text-background font-extrabold ${book.booking_number === 0 ? 'bg-disabled scale-95' : 'bg-highlight hover:bg-[#FFB340] hover:scale-105 duration-300'}`} >
                             {isSubmitting
-                                ? <ThreeDots
-                                    height="20"
-                                    width="40"
-                                    radius="2"
-                                    color="#001e1d"
-                                    ariaLabel="three-dots-loading"
-                                    wrapperStyle={{ justifyContent: "center" }}
-                                    visible={true}
-                                />
+                                ? <ThreeDots height="20" width="40" radius="2" color="#001e1d" ariaLabel="three-dots-loading" wrapperStyle={{ justifyContent: "center" }} visible={true} />
                                 : 'Book'}
                         </button>
                     </div>

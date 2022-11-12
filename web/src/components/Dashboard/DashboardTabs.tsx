@@ -1,6 +1,6 @@
 import * as Tabs from '@radix-ui/react-tabs';
 import { useState } from 'react';
-import { BookingTab } from './BookingTab';
+import { BookingTab } from './BookingTab/BookingTab';
 
 export const DashboardTabs = () => {
     const [tabOpen, setTabOpen] = useState<boolean[]>([true, false, false]);

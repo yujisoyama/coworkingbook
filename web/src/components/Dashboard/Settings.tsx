@@ -1,7 +1,7 @@
 import { useState, KeyboardEvent, MouseEvent } from 'react';
 import Drawer from '@mui/material/Drawer';
 import { Buildings, EnvelopeSimple, IdentificationCard, Info, PencilSimpleLine, ShareNetwork, SignOut, UserCircle } from 'phosphor-react';
-import { useUser } from '../context/UserContext';
+import { useUser } from '../../context/UserContext';
 
 export const Settings = () => {
     const { user } = useUser();

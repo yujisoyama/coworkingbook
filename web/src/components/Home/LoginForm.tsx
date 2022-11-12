@@ -2,8 +2,8 @@ import { BriefcaseMetal, EnvelopeSimple, Lock } from "phosphor-react"
 import { FormEvent, useState } from "react"
 import { ThreeDots } from "react-loader-spinner"
 import { Link, useNavigate } from "react-router-dom"
-import { useUser } from "../context/UserContext"
-import { Input } from "./Input"
+import { useUser } from "../../context/UserContext"
+import { Input } from "../Input"
 
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';

@@ -3,8 +3,8 @@ import { FormEvent, useState } from "react";
 import { createAccount } from "../utils/createAccount";
 import { checkEmailAlreadyUsing } from "../utils/checkEmailAlreadyUsing";
 import { inputEmpty, verifyEmail } from "../utils/formValidate";
-import { SignUpConfirm } from "../components/SignUpConfirm";
-import { SignUpForm } from "../components/SignUpForm";
+import { SignUpConfirm } from "../components/SignUp/SignUpConfirm";
+import { SignUpForm } from "../components/SignUp/SignUpForm";
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

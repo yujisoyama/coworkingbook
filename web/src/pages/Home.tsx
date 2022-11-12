@@ -1,5 +1,5 @@
-import { HomeInformation } from "../components/HomeInformation"
-import { LoginForm } from "../components/LoginForm"
+import { HomeInformation } from "../components/Home/HomeInformation"
+import { LoginForm } from "../components/Home/LoginForm"
 
 export const Home = () => {
     return (
