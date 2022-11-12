@@ -42,7 +42,7 @@ export const SignUpForm = (props: ISignUpFormProps) => {
                         <span><ShareNetwork className="inline absolute top-4 left-5" size={24} /></span>
                         <Input name="role" id="role" type='text' placeholder="Role" warning={'false'} />
                     </div>
-                    <button disabled={props.isSubmitting} className={`w-36 mx-auto h-12 rounded-full font-extrabold from-buttonText ${props.isSubmitting ? 'bg-disabled scale-105' : 'bg-highlight hover:bg-[#FFB340] hover:scale-105 duration-300'}`} type="submit">
+                    <button disabled={props.isSubmitting} className={`w-36 mx-auto h-12 rounded-full font-extrabold ${props.isSubmitting ? 'bg-disabled scale-105' : 'bg-highlight hover:bg-[#FFB340] hover:scale-105 duration-300'}`} type="submit">
                         {props.isSubmitting ? <ThreeDots
                             height="20"
                             width="40"
