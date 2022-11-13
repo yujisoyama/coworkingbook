@@ -3,18 +3,22 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { teal, yellow } from '@mui/material/colors';
-import { Circle } from 'phosphor-react';
+import { Books, Circle } from 'phosphor-react';
 import { Desks } from './Desks';
 import { FormEvent, useEffect, useState } from 'react';
 import { MeetingRooms } from './MeetingRooms';
 import { useUser } from '../../../context/UserContext';
 import { api } from '../../../Api';
-import { ThreeDots } from 'react-loader-spinner';
+import { MutatingDots, ThreeDots } from 'react-loader-spinner';
 
 export interface IStatus {
     booking_number: number;
     available: boolean;
     selected: boolean;
+}
+
+export interface notAvailable {
+    booking_number: number;
 }
 
 export interface IBook {
@@ -59,6 +63,35 @@ export const BookingTab = () => {
     const [bookFail, setBookFail] = useState<boolean>(false);
     const [bookNotAvailable, setBookNotAvailable] = useState<boolean>(false);
     const [bookMessage, setBookMessage] = useState<string>('');
+    const [availabilityLoaded, setAvailabilityLoaded] = useState<boolean>(false);
+
+    const loadAvailability = async () => {
+        book.type = '';
+        book.booking_number = 0;
+        const { booking_day, period } = book;
+        await api.post('/available', {
+            booking_day,
+            period
+        },
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then(res => {
+                for (let i = 0; i < desks.length; i++) {
+                    desks[i].selected = false;
+                    const notAvailable: notAvailable[] = res.data.notAvailableDesks.filter((notAvailable: notAvailable) => notAvailable.booking_number === desks[i].booking_number);
+                    if (notAvailable.length) {
+                        console.log(notAvailable);
+
+                        desks[i].available = false;
+                    } else {
+                        desks[i].available = true;
+                    }
+                }
+                setAvailabilityLoaded(true);
+            })
+    }
 
     const selectDesk = (booking_number: number) => {
         if (desks[booking_number - 1].available) {
@@ -155,6 +188,11 @@ export const BookingTab = () => {
         }, 1000);
     }
 
+    useEffect(() => {
+        setAvailabilityLoaded(false);
+        setTimeout(loadAvailability, 700);
+    }, [book.booking_day, book.period])
+
     return (
         <div className="mt-[3%] w-full min-h-[500px] bg-backgroundLight rounded-xl flex flex-col text-paragraph font-semibold text-lg px-9 py-5">
             <div className='flex flex-row justify-start items-center gap-6'>
@@ -183,20 +221,39 @@ export const BookingTab = () => {
             <div className='flex flex-row gap-8 mt-5'>
                 <div className='w-2/3'>
                     <div className="h-[80%] min-w-[700px] min-h-[350px] border-background border-2 rounded-xl">
-                        <div className='h-2/3 grid grid-cols-5 gap-4 justify-items-center items-center'>
-                            {desks.map(desk => [
-                                <div key={desk.booking_number} onClick={() => selectDesk(desk.booking_number)}>
-                                    <Desks booking_number={desk.booking_number} available={desk.available} selected={desk.selected} />
+                        {availabilityLoaded
+                            ? (
+                                <>
+                                    <div className='h-2/3 grid grid-cols-5 gap-4 justify-items-center items-center'>
+                                        {desks.map(desk => [
+                                            <div key={desk.booking_number} onClick={() => selectDesk(desk.booking_number)}>
+                                                <Desks booking_number={desk.booking_number} available={desk.available} selected={desk.selected} />
+                                            </div>
+                                        ])}
+                                    </div>
+                                    <div className='h-1/3 grid grid-cols-3 justify-items-center items-center'>
+                                        {rooms.map(room => [
+                                            <div key={room.booking_number} onClick={() => selectRoom(room.booking_number)}>
+                                                <MeetingRooms booking_number={room.booking_number} available={room.available} selected={room.selected} />
+                                            </div>
+                                        ])}
+                                    </div>
+                                </>
+                            ) : (
+                                <div className='h-full flex justify-center items-center'>
+                                    <MutatingDots
+                                        height="100"
+                                        width="100"
+                                        color="#f9bc60"
+                                        secondaryColor='#f9bc60'
+                                        radius='12'
+                                        ariaLabel="mutating-dots-loading"
+                                        wrapperStyle={{}}
+                                        wrapperClass=""
+                                        visible={true}
+                                    />
                                 </div>
-                            ])}
-                        </div>
-                        <div className='h-1/3 grid grid-cols-3 justify-items-center items-center'>
-                            {rooms.map(room => [
-                                <div key={room.booking_number} onClick={() => selectRoom(room.booking_number)}>
-                                    <MeetingRooms booking_number={room.booking_number} available={room.available} selected={room.selected} />
-                                </div>
-                            ])}
-                        </div>
+                            )}
                     </div>
                     <div className='flex flex-row mt-4 gap-1 items-center justify-end text-sm mr-5'>
                         <Circle className='ml-8' size={16} color="#e8e4e6" weight="fill" />

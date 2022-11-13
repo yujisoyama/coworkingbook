@@ -18,7 +18,7 @@ routes.post('/login', (req: Request, res: Response) => { userControllers.login(r
 routes.use(authMiddleware);
 //routes.get('/profile', authMiddleware, (req: Request, res: Response) => { userControllers.getProfile(req, res, userServices) });
 routes.get('/profile', (req: Request, res: Response) => { userControllers.getProfile(req, res) });
-routes.get('/available', (req: Request, res: Response) => { bookControllers.getAvailability(req, res, bookServices) });
+routes.post('/available', (req: Request, res: Response) => { bookControllers.getAvailability(req, res, bookServices) });
 routes.post('/book', (req: Request, res: Response) => { bookControllers.create(req, res, bookServices); });
 
 
