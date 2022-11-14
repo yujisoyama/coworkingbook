@@ -5,8 +5,8 @@ import IBookServices from "../services/IBookServices";
 class BookControllers {
     async create(req: Request, res: Response, bookServices: IBookServices) {
         try {
-            const { type, booking_number, period, booking_day, user } = req.body;
-            const result = await bookServices.save({ type, booking_number, period, booking_day, user });
+            const { type, booking_number, period_id, booking_day, user } = req.body;
+            const result = await bookServices.save({ type, booking_number, period_id, booking_day, user });
 
             if (result) {
                 return res.status(201).json("Your booking has been done!");
@@ -20,11 +20,34 @@ class BookControllers {
 
     async getAvailability(req: Request, res: Response, bookServices: IBookServices) {
         try {
-            const { booking_day, period } = req.body;
-            const result = await bookServices.getAvailability(booking_day, period);
+            const { booking_day, period_id } = req.body;
+            const result = await bookServices.getAvailability(booking_day, period_id);
             return res.json(result);
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    async getUpcomingBooks(req:Request, res:Response, bookServices: IBookServices) {
+        try {
+            const userId = Number(req.params.userId);
+            const todayDate = req.params.todayDate;
+            const result = await bookServices.getUpcomingBooks(userId, todayDate);
+            res.status(200).json(result);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json(error);
+        }
+    }
+
+    async cancelUpcomingBook(req:Request, res:Response, bookServices: IBookServices) {
+        try {
+            const bookId = Number(req.params.bookId);
+            await bookServices.cancelBooking(bookId);
+            res.status(200).json("Booking canceled!")
+        } catch (error) {
+            console.log(error);
+            res.status(500).json(error);
         }
     }
 }

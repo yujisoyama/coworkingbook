@@ -23,7 +23,7 @@ export class Book {
     period: Period
 
     @Column({ type: 'date', nullable: false })
-    booking_day: string;
+    booking_day: Date;
 
     @CreateDateColumn()
     created_at: Date

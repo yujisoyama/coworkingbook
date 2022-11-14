@@ -1,6 +1,7 @@
 import * as Tabs from '@radix-ui/react-tabs';
 import { useState } from 'react';
 import { BookingTab } from './BookingTab/BookingTab';
+import { UpcomingBookingsTab } from './UpcomingBookingsTab/UpcomingBookingsTab';
 
 export const DashboardTabs = () => {
     const [tabOpen, setTabOpen] = useState<boolean[]>([true, false, false]);
@@ -18,7 +19,7 @@ export const DashboardTabs = () => {
                     Booking
                 </Tabs.Trigger>
                 <Tabs.Trigger onClick={() => openTab(1)} className={`px-4 flex h-12 items-center justify-center border-b ${tabOpen[1] ? 'text-highlight border-highlight' : 'text-paragraph border-background hover:cursor-pointer hover:text-main duration-100'} text-xl font-semibold mobile:px-2 mobile:text-sm`} value="current">
-                    Current Bookings
+                    Upcoming Bookings
                 </Tabs.Trigger>
                 <Tabs.Trigger onClick={() => openTab(2)} className={`px-4 flex h-12 items-center justify-center border-b ${tabOpen[2] ? 'text-highlight border-highlight' : 'text-paragraph border-background hover:cursor-pointer hover:text-main duration-100'} text-xl font-semibold mobile:px-2 mobile:text-sm`} value="last">
                     Last Bookings
@@ -28,7 +29,7 @@ export const DashboardTabs = () => {
                 <BookingTab />
             </Tabs.Content>
             <Tabs.Content className='h-full' value="current">
-
+                <UpcomingBookingsTab />
             </Tabs.Content>
             <Tabs.Content className='h-full' value="last">
 

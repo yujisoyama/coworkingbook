@@ -1,5 +1,6 @@
 import { Desktop } from "phosphor-react"
-import { IStatus } from "./BookingTab"
+import { IStatus } from "../../../@types/Book";
+
 
 
 export const Desks = (props: IStatus) => {

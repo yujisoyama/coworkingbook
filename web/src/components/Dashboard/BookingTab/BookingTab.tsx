@@ -3,31 +3,15 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { teal, yellow } from '@mui/material/colors';
-import { Books, Circle } from 'phosphor-react';
+import { Circle } from 'phosphor-react';
 import { Desks } from './Desks';
 import { FormEvent, useEffect, useState } from 'react';
 import { MeetingRooms } from './MeetingRooms';
 import { useUser } from '../../../context/UserContext';
 import { api } from '../../../Api';
-import { MutatingDots, ThreeDots } from 'react-loader-spinner';
-
-export interface IStatus {
-    booking_number: number;
-    available: boolean;
-    selected: boolean;
-}
-
-export interface notAvailable {
-    booking_number: number;
-}
-
-export interface IBook {
-    type: string;
-    booking_number: number;
-    booking_day: string;
-    period: number;
-    user: number;
-}
+import { ThreeDots } from 'react-loader-spinner';
+import { IBook, INotAvailable, IStatus, } from '../../../@types/Book';
+import { Loading } from '../Loading';
 
 const Default_Desks: IStatus[] = [
     { booking_number: 1, available: true, selected: false },
@@ -57,7 +41,7 @@ export const BookingTab = () => {
     const { user, token } = useUser();
     const [desks, setDesks] = useState<IStatus[]>(Default_Desks);
     const [rooms, setRooms] = useState<IStatus[]>(Default_Rooms);
-    const [book, setBook] = useState<IBook>({ type: '', booking_number: 0, booking_day: minDate, period: 3, user: user.id });
+    const [book, setBook] = useState<IBook>({ type: '', booking_number: 0, booking_day: minDate, period_id: 3, user: user.id });
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [bookSuccess, setBookSuccess] = useState<boolean>(false);
     const [bookFail, setBookFail] = useState<boolean>(false);
@@ -66,31 +50,42 @@ export const BookingTab = () => {
     const [availabilityLoaded, setAvailabilityLoaded] = useState<boolean>(false);
 
     const loadAvailability = async () => {
+        setAvailabilityLoaded(false);
         book.type = '';
         book.booking_number = 0;
-        const { booking_day, period } = book;
-        await api.post('/available', {
-            booking_day,
-            period
-        },
-            {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            }).then(res => {
-                for (let i = 0; i < desks.length; i++) {
-                    desks[i].selected = false;
-                    const notAvailable: notAvailable[] = res.data.notAvailableDesks.filter((notAvailable: notAvailable) => notAvailable.booking_number === desks[i].booking_number);
-                    if (notAvailable.length) {
-                        console.log(notAvailable);
-
-                        desks[i].available = false;
-                    } else {
-                        desks[i].available = true;
+        const { booking_day, period_id } = book;
+        let timer = setTimeout(async () => {
+            await api.post('/book/available', {
+                booking_day,
+                period_id
+            },
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
                     }
-                }
-                setAvailabilityLoaded(true);
-            })
+                }).then(res => {
+                    for (let i = 0; i < desks.length; i++) {
+                        desks[i].selected = false;
+                        const notAvailable: INotAvailable[] = res.data.notAvailableDesks.filter((notAvailable: INotAvailable) => notAvailable.booking_number === desks[i].booking_number);
+                        if (notAvailable.length) {
+                            desks[i].available = false;
+                        } else {
+                            desks[i].available = true;
+                        }
+                    }
+                    for (let i = 0; i < rooms.length; i++) {
+                        rooms[i].selected = false;
+                        const notAvailable: INotAvailable[] = res.data.notAvailableRooms.filter((notAvailable: INotAvailable) => notAvailable.booking_number === rooms[i].booking_number);
+                        if (notAvailable.length) {
+                            rooms[i].available = false;
+                        } else {
+                            rooms[i].available = true;
+                        }
+                    }
+                    clearTimeout(timer);
+                    setAvailabilityLoaded(true);
+                })
+        }, 700)
     }
 
     const selectDesk = (booking_number: number) => {
@@ -131,7 +126,7 @@ export const BookingTab = () => {
     }
 
     const selectPeriod = (event: FormEvent<HTMLInputElement>) => {
-        setBook({ ...book, period: Number(event.currentTarget.value) })
+        setBook({ ...book, period_id: Number(event.currentTarget.value) })
     }
 
     const renderDeskOrRoom = (type: string) => {
@@ -160,7 +155,9 @@ export const BookingTab = () => {
         setBookSuccess(false);
         setBookFail(false);
         setBookNotAvailable(false);
-        setIsSubmitting(true)
+        setIsSubmitting(true);
+        console.log(book);
+        
         let timer = setTimeout(async () => {
             await api.post('/book', book, {
                 headers: {
@@ -173,6 +170,8 @@ export const BookingTab = () => {
                 setBookNotAvailable(false);
                 clearTimeout(timer);
                 setIsSubmitting(false);
+                setBook({ type: '', booking_number: 0, booking_day: minDate, period_id: 3, user: user.id });
+                loadAvailability();
             }).catch(error => {
                 if (error.response.status === 409) {
                     setBookMessage(error.response.data);
@@ -189,9 +188,8 @@ export const BookingTab = () => {
     }
 
     useEffect(() => {
-        setAvailabilityLoaded(false);
-        setTimeout(loadAvailability, 700);
-    }, [book.booking_day, book.period])
+        loadAvailability();
+    }, [book.booking_day, book.period_id])
 
     return (
         <div className="mt-[3%] w-full min-h-[500px] bg-backgroundLight rounded-xl flex flex-col text-paragraph font-semibold text-lg px-9 py-5">
@@ -240,19 +238,7 @@ export const BookingTab = () => {
                                     </div>
                                 </>
                             ) : (
-                                <div className='h-full flex justify-center items-center'>
-                                    <MutatingDots
-                                        height="100"
-                                        width="100"
-                                        color="#f9bc60"
-                                        secondaryColor='#f9bc60'
-                                        radius='12'
-                                        ariaLabel="mutating-dots-loading"
-                                        wrapperStyle={{}}
-                                        wrapperClass=""
-                                        visible={true}
-                                    />
-                                </div>
+                                <Loading />
                             )}
                     </div>
                     <div className='flex flex-row mt-4 gap-1 items-center justify-end text-sm mr-5'>
@@ -271,7 +257,7 @@ export const BookingTab = () => {
                         <div className='mt-4 flex flex-col gap-2 text-base'>
                             {renderDeskOrRoom(book.type)}
                             <p>Date: <span className='text-highlight'>{book.booking_day}</span></p>
-                            {renderPeriod(book.period)}
+                            {renderPeriod(book.period_id)}
                         </div>
                     </div>
                     <div className='mt-10 self-center'>
@@ -287,12 +273,12 @@ export const BookingTab = () => {
                         </div>
                     }
                     {bookFail &&
-                        <div className='mt-6 self-center border-2 bg-[#e7b3b3] border-attention text-sm text-background p-3 rounded-lg'>
+                        <div className='mt-6 self-center border-2 bg-attentionBackground border-attention text-sm text-background p-3 rounded-lg'>
                             Something went wrong, try again later.
                         </div>
                     }
                     {bookNotAvailable &&
-                        <div className='mt-6 self-center border-2 bg-[#e7b3b3] border-attention text-sm text-background p-3 rounded-lg'>
+                        <div className='mt-6 self-center border-2 bg-attentionBackground border-attention text-sm text-background p-3 rounded-lg'>
                             {bookMessage}
                         </div>
                     }

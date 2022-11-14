@@ -19,5 +19,4 @@ export const PrivateRoutes = () => {
     }
 
     return authenticated ? <Outlet /> : <Navigate to="/" />
-
 }

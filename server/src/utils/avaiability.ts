@@ -1,6 +1,6 @@
 import { bookRepository } from "../repositories/BookRepository";
 
-export const getAlreadyBooked = async (type: string, booking_day: string, booking_number: number, period: number[]) => {
+export const getAlreadyBooked = async (type: string, booking_day: Date, booking_number: number, period: number[]) => {
     try {
         return await bookRepository.createQueryBuilder("book")
             .where("book.type = :type", { type })
@@ -14,7 +14,7 @@ export const getAlreadyBooked = async (type: string, booking_day: string, bookin
     }
 }
 
-export const getNotAvailable = async (type: string, booking_day: string, period: number[]) => {
+export const getNotAvailable = async (type: string, booking_day: Date, period: number[]) => {
     try {
         return await bookRepository.createQueryBuilder("book")
             .where("book.type = :type", { type })

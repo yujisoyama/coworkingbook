@@ -17,7 +17,8 @@ module.exports = {
       buttonHover: '',
       main: '#e8e4e6',
       secondary: '#abd1c6',
-      attention: '#e16162'
+      attention: '#e16162',
+      attentionBackground: '#e7b3b3'
     },
     screens: {
       'mobile': { 'max': '500px' },

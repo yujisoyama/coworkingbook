@@ -5,9 +5,9 @@ import IBookServices, { IBookSaveRequest } from "./IBookServices";
 
 
 class BookServices implements IBookServices {
-    async save({ type, booking_number, period, booking_day, user }: IBookSaveRequest): Promise<Book | undefined> {
+    async save({ type, booking_number, period_id, booking_day, user }: IBookSaveRequest): Promise<Book | undefined> {
         let alreadyBooked;
-        switch (Number(period)) {
+        switch (Number(period_id)) {
             case 1:
                 alreadyBooked = await getAlreadyBooked(type, booking_day, booking_number, [1, 3])
                 break;
@@ -25,7 +25,7 @@ class BookServices implements IBookServices {
             const newBook = bookRepository.create({
                 type,
                 booking_number,
-                period,
+                period: period_id,
                 booking_day,
                 user
             });
@@ -34,7 +34,7 @@ class BookServices implements IBookServices {
         }
     }
 
-    async getAvailability(booking_day: string, period: number) {
+    async getAvailability(booking_day: Date, period: number) {
         let notAvailableDesks;
         let notAvailableRooms;
         switch (Number(period)) {
@@ -52,6 +52,19 @@ class BookServices implements IBookServices {
                 break;
         }
         return { notAvailableDesks, notAvailableRooms }
+    }
+
+    async getUpcomingBooks(userId: number, todayDate: string): Promise<Partial<Book[]>> {
+        const upcomingBooks: Partial<Book[]> = await bookRepository.createQueryBuilder("book")
+            .where("book.booking_day >= :todayDate", { todayDate })
+            .andWhere("book.user_id = :userId", { userId })
+            .select(["id", "type", "booking_number", "booking_day", "period_id"])
+            .execute();
+        return upcomingBooks;
+    }
+
+    async cancelBooking(bookId: number): Promise<any> {
+        await bookRepository.delete({ id: bookId });
     }
 }
 

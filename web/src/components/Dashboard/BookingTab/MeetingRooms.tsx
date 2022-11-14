@@ -1,5 +1,6 @@
 import { Presentation } from "phosphor-react"
-import { IStatus } from "./BookingTab"
+import { IStatus } from "../../../@types/Book";
+
 
 export const MeetingRooms = (props: IStatus) => {
     let color = props.available ? "#e8e4e6" : "#e16162";
