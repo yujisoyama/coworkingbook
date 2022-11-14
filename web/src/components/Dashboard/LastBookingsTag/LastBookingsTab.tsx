@@ -44,7 +44,7 @@ export const LastBookingsTab = () => {
                                 ])}
                             </>
                         ) : (
-                            <div className="flex h-16 justify-center items-center">You don't have last books.</div>
+                            <div className="flex h-16 justify-center items-center upcomingTabMobile:text-sm">You don't have last books.</div>
                         )}
                     </>
                 ) : (

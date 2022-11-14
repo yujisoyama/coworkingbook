@@ -45,7 +45,7 @@ export const UpcomingBookingsTab = () => {
 
     return (
         <div>
-            <div className="mt-[3%] w-full bg-backgroundLight rounded-xl flex flex-col text-paragraph font-semibold text-lg px-9 py-5">
+            <div className="mt-[3%] w-full bg-backgroundLight rounded-xl flex flex-col text-paragraph font-semibold px-9 py-5">
                 {upcomingBooksLoaded ? (
                     <>
                         {upcomingBooks?.length ? (
@@ -55,7 +55,7 @@ export const UpcomingBookingsTab = () => {
                                 ])}
                             </>
                         ) : (
-                            <div className="flex h-16 justify-center items-center">You don't have current books.</div>
+                            <div className="flex h-16 justify-center items-center upcomingTabMobile:text-sm">You don't have current books.</div>
                         )}
                     </>
                 ) : (

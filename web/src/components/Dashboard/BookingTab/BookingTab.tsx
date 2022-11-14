@@ -157,7 +157,7 @@ export const BookingTab = () => {
         setBookNotAvailable(false);
         setIsSubmitting(true);
         console.log(book);
-        
+
         let timer = setTimeout(async () => {
             await api.post('/book', book, {
                 headers: {
@@ -193,43 +193,63 @@ export const BookingTab = () => {
 
     return (
         <div className="mt-[3%] w-full min-h-[500px] bg-backgroundLight rounded-xl flex flex-col text-paragraph font-semibold text-lg px-9 py-5">
-            <div className='flex flex-row justify-start items-center gap-6'>
-                <div>
+            <div className='flex flex-row justify-start items-center gap-6
+                bookingTabMd:flex-col
+                bookingTabLg:items-start
+                bookingTabMd:gap-4'>
+                <div className='bookingTabSm:text-base'>
                     <label htmlFor="date" className="mr-3">Select a date:</label>
-                    <input onChange={selectDate} type="date" name="date" id="date" min={minDate} max={maxDate} defaultValue={minDate} className="border-none outline-none bg-highlight py-2 px-4 rounded-lg text-background font-normal text-base" />
+                    <input onChange={selectDate} type="date" name="date" id="date" min={minDate} max={maxDate} defaultValue={minDate} className="border-none outline-none bg-highlight py-2 px-4 rounded-lg text-background font-normal text-base bookingTabSm:text-sm" />
                 </div>
-                <div className='ml-10'>
+                <div className='ml-10 flex flex-row items-center gap-6
+                    bookingTabMd:ml-0
+                    bookingTabSm:text-sm
+                    bookingTabSm:gap-3
+                    bookingTabMobile:flex-col
+                    bookingTabMobile:items-start
+                    bookingTabMobile:gap-0'>
                     Select a period:
+                    <FormControl>
+                        <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            defaultValue={3}
+                            className='gap-5 bookingTabSm:gap-1 bookingTabMobile:mr-50px'
+                            onChange={selectPeriod}
+                        >
+                            <FormControlLabel value={3} control={<Radio sx={{ color: teal[100], '&.Mui-checked': { color: yellow[800], }, }} />} label={<span className='bookingTabSm:text-sm'>Full Day</span>} />
+                            <FormControlLabel value={1} control={<Radio sx={{ color: teal[100], '&.Mui-checked': { color: yellow[800], }, }} />} label={<span className='bookingTabSm:text-sm'>Morning</span>} />
+                            <FormControlLabel value={2} control={<Radio sx={{ color: teal[100], '&.Mui-checked': { color: yellow[800], }, }} />} label={<span className='bookingTabSm:text-sm'>Afternoon</span>} />
+                        </RadioGroup>
+                    </FormControl>
                 </div>
-                <FormControl>
-                    <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="row-radio-buttons-group"
-                        defaultValue={3}
-                        className='gap-5'
-                        onChange={selectPeriod}
-                    >
-                        <FormControlLabel value={3} control={<Radio sx={{ color: teal[100], '&.Mui-checked': { color: yellow[800], }, }} />} label="Full Day" />
-                        <FormControlLabel value={1} control={<Radio sx={{ color: teal[100], '&.Mui-checked': { color: yellow[800], }, }} />} label="Morning" />
-                        <FormControlLabel value={2} control={<Radio sx={{ color: teal[100], '&.Mui-checked': { color: yellow[800], }, }} />} label="Afternoon" />
-                    </RadioGroup>
-                </FormControl>
             </div>
-            <div className='flex flex-row gap-8 mt-5'>
-                <div className='w-2/3'>
-                    <div className="h-[80%] min-w-[700px] min-h-[350px] border-background border-2 rounded-xl">
+            <div className='flex flex-row gap-8 mt-5 
+                bookingTabLg:flex-col 
+                bookingTabLg:items-center
+                bookingTabLg:gap-0' >
+                <div className='w-2/3
+                    bookingTabLg:w-full'>
+                    <div className="h-[350px] border-background border-2 rounded-xl
+                        bookingTabMobile:h-[270px]">
                         {availabilityLoaded
                             ? (
                                 <>
-                                    <div className='h-2/3 grid grid-cols-5 gap-4 justify-items-center items-center'>
+                                    <div className='h-[233px] grid grid-cols-5 gap-4 justify-items-center items-center
+                                        bookingTabMobile:h-[180px]
+                                        bookingTabMobile:gap-0
+                                        bookingTabMobile:px-2'>
                                         {desks.map(desk => [
                                             <div key={desk.booking_number} onClick={() => selectDesk(desk.booking_number)}>
                                                 <Desks booking_number={desk.booking_number} available={desk.available} selected={desk.selected} />
                                             </div>
                                         ])}
                                     </div>
-                                    <div className='h-1/3 grid grid-cols-3 justify-items-center items-center'>
+                                    <div className='h-[116px] grid grid-cols-3 justify-items-center items-center
+                                        bookingTabMobile:h-[90px]
+                                        bookingTabMobile:gap-0
+                                        bookingTabMobile:px-2'>
                                         {rooms.map(room => [
                                             <div key={room.booking_number} onClick={() => selectRoom(room.booking_number)}>
                                                 <MeetingRooms booking_number={room.booking_number} available={room.available} selected={room.selected} />
@@ -241,16 +261,19 @@ export const BookingTab = () => {
                                 <Loading />
                             )}
                     </div>
-                    <div className='flex flex-row mt-4 gap-1 items-center justify-end text-sm mr-5'>
-                        <Circle className='ml-8' size={16} color="#e8e4e6" weight="fill" />
+                    <div className='flex flex-row mt-4 gap-1 items-center justify-end text-sm mr-5
+                        bookingTabMobile:mr-1
+                        bookingTabMobile:text-xs'>
+                        <Circle className='ml-8 bookingTabMobile:ml-3' size={16} color="#e8e4e6" weight="fill" />
                         <p>Available</p>
-                        <Circle className='ml-8' size={16} color="#e16162" weight="fill" />
+                        <Circle className='ml-8 bookingTabMobile:ml-3' size={16} color="#e16162" weight="fill" />
                         <p>Not Available</p>
-                        <Circle className='ml-8' size={16} color="#f9bc60" weight="fill" />
+                        <Circle className='ml-8 bookingTabMobile:ml-3' size={16} color="#f9bc60" weight="fill" />
                         <p>Selected</p>
                     </div>
                 </div>
-                <div className='w-1/3 mt-6 flex flex-col'>
+                <div className='w-1/3 mt-6 flex flex-col
+                    bookingTabLg:w-full'>
                     <div>
                         Booking info:
                         <hr />

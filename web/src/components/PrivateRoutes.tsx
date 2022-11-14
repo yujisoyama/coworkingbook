@@ -12,7 +12,7 @@ export const PrivateRoutes = () => {
 
     if (authenticated === undefined) {
         return (
-            <div className="bg-login bg-cover bg-no-repeat w-full h-screen mobileHome:h-full mobileHome:w-full mobileHome:bg-loginmobile">
+            <div className="bg-login bg-cover bg-no-repeat w-full h-screen mobileHome:bg-loginmobile">
                 <Loading />
             </div>
         )

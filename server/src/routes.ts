@@ -24,6 +24,4 @@ routes.get('/book/upcoming/:userId/:todayDate', (req: Request, res: Response) =>
 routes.get('/book/last/:userId/:todayDate', (req: Request, res: Response) => { bookControllers.getLastBooks(req, res, bookServices); });
 routes.delete('/book/cancel/:bookId', (req: Request, res: Response) => { bookControllers.cancelUpcomingBook(req, res, bookServices); });
 
-
-
 export default routes;

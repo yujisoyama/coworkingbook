@@ -24,7 +24,12 @@ module.exports = {
       'mobile': { 'max': '500px' },
       'mobileHome': { 'max': '1100px' },
       'mobileSignup': { 'max': '500px' },
-      'mobileSignupConfirm': { 'max': '630px' }
+      'mobileSignupConfirm': { 'max': '630px' },
+      'bookingTabLg': { 'max': '1350px' },
+      'bookingTabMd': { 'max': '1135px' },
+      'bookingTabSm': { 'max': '750px' },
+      'bookingTabMobile': { 'max': '615px' },
+      'upcomingTabMobile': { 'max': '810px' },
     },
     fontFamily: {
       noto: ['Noto Sans', 'sans-serif'],
