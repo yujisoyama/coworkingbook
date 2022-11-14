@@ -21,6 +21,7 @@ routes.get('/profile', (req: Request, res: Response) => { userControllers.getPro
 routes.post('/book', (req: Request, res: Response) => { bookControllers.create(req, res, bookServices); });
 routes.post('/book/available', (req: Request, res: Response) => { bookControllers.getAvailability(req, res, bookServices) });
 routes.get('/book/upcoming/:userId/:todayDate', (req: Request, res: Response) => { bookControllers.getUpcomingBooks(req, res, bookServices); });
+routes.get('/book/last/:userId/:todayDate', (req: Request, res: Response) => { bookControllers.getLastBooks(req, res, bookServices); });
 routes.delete('/book/cancel/:bookId', (req: Request, res: Response) => { bookControllers.cancelUpcomingBook(req, res, bookServices); });
 
 

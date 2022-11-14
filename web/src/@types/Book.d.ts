@@ -20,3 +20,7 @@ export interface IUpcomingBooking extends IBook {
     id: number;
     cancelBooking: () => {};
 }
+
+export interface ILastBooking extends IBook {
+    id: number;
+}

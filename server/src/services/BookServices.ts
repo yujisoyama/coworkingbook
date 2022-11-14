@@ -63,6 +63,15 @@ class BookServices implements IBookServices {
         return upcomingBooks;
     }
 
+    async getLastBooks(userId: number, todayDate: string): Promise<Partial<Book[]>> {
+        const lastBooks: Partial<Book[]> = await bookRepository.createQueryBuilder("book")
+            .where("book.booking_day < :todayDate", { todayDate })
+            .andWhere("book.user_id = :userId", { userId })
+            .select(["id", "type", "booking_number", "booking_day", "period_id"])
+            .execute();
+        return lastBooks;
+    }
+
     async cancelBooking(bookId: number): Promise<any> {
         await bookRepository.delete({ id: bookId });
     }

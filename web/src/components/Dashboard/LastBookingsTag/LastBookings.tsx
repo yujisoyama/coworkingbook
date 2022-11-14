@@ -1,7 +1,6 @@
-import { Trash } from "phosphor-react"
-import { IUpcomingBooking } from "../../../@types/Book"
+import { ILastBooking } from "../../../@types/Book"
 
-export const UpcomingBookings = (props: IUpcomingBooking) => {
+export const LastBookings = (props: ILastBooking) => {
     const date: string = props.booking_day.split('T')[0];
     let period: string = '';
     switch (props.period_id) {
@@ -24,10 +23,6 @@ export const UpcomingBookings = (props: IUpcomingBooking) => {
                 <p className="text-center">Day: <span className="text-highlight">{date}</span></p>
                 <p className="text-center">Period: <span className="text-highlight">{period}</span></p>
             </div>
-            <button onClick={props.cancelBooking} className="flex flex-row gap-1 justify-center items-center bg-attentionBackground rounded-lg p-2 text-background border border-attention">
-                Cancel Booking
-                <Trash size={25} weight="bold" color="#e16162" />
-            </button>
         </div>
     )
 }

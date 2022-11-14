@@ -40,6 +40,18 @@ class BookControllers {
         }
     }
 
+    async getLastBooks(req:Request, res:Response, bookServices: IBookServices) {
+        try {
+            const userId = Number(req.params.userId);
+            const todayDate = req.params.todayDate;
+            const result = await bookServices.getLastBooks(userId, todayDate);
+            res.status(200).json(result);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json(error);
+        }
+    }
+
     async cancelUpcomingBook(req:Request, res:Response, bookServices: IBookServices) {
         try {
             const bookId = Number(req.params.bookId);

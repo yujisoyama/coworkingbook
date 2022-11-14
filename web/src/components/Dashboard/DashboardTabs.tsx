@@ -1,6 +1,7 @@
 import * as Tabs from '@radix-ui/react-tabs';
 import { useState } from 'react';
 import { BookingTab } from './BookingTab/BookingTab';
+import { LastBookingsTab } from './LastBookingsTag/LastBookingsTab';
 import { UpcomingBookingsTab } from './UpcomingBookingsTab/UpcomingBookingsTab';
 
 export const DashboardTabs = () => {
@@ -32,7 +33,7 @@ export const DashboardTabs = () => {
                 <UpcomingBookingsTab />
             </Tabs.Content>
             <Tabs.Content className='h-full' value="last">
-
+                <LastBookingsTab />
             </Tabs.Content>
         </Tabs.Root>
     )

@@ -14,5 +14,6 @@ export default interface IBookServices {
     save({ type, booking_number, period_id, booking_day, user }: IBookSaveRequest): Promise<Book | undefined>;
     getAvailability(booking_day: Date, period: number): Promise<any>;
     getUpcomingBooks(userId: number, todayDate: string): Promise<Partial<Book[]>>;
-    cancelBooking(bookId: number): Promise<any>;
+    getLastBooks(userId: number, todayDate: string): Promise<Partial<Book[]>>;
+    cancelBooking(bookId: number): any;
 }
