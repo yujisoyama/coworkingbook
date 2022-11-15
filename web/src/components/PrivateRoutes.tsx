@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { Outlet, Navigate } from "react-router-dom"
 import { useUser } from "../context/UserContext"
 import { Loading } from "./Dashboard/Loading";

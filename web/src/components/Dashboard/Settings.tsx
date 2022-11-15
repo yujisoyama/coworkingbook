@@ -2,14 +2,22 @@ import { useState, KeyboardEvent, MouseEvent } from 'react';
 import Drawer from '@mui/material/Drawer';
 import { Buildings, EnvelopeSimple, IdentificationCard, Info, PencilSimpleLine, ShareNetwork, SignOut, UserCircle } from 'phosphor-react';
 import { useUser } from '../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export const Settings = () => {
-    const { user } = useUser();
+    const { user, setToken } = useUser();
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const toggleDrawer = (isDrawerOpen: boolean) => (event: KeyboardEvent | MouseEvent) => {
         setIsDrawerOpen(isDrawerOpen);
     };
+
+    const signOut = () => {
+        setToken("");
+        localStorage.setItem("token", "");
+        navigate("/");
+    }
 
     return (
         <div className='h-[38px] inline'>
@@ -44,7 +52,7 @@ export const Settings = () => {
                             <Info size={25} color="#e8e4e6" />
                             <p>About</p>
                         </div>
-                        <div className='px-9 py-4 flex flex-row items-center gap-2 font-open text-paragraph hover:cursor-pointer hover:bg-[#005855] duration-100'>
+                        <div onClick={signOut} className='px-9 py-4 flex flex-row items-center gap-2 font-open text-paragraph hover:cursor-pointer hover:bg-[#005855] duration-100'>
                             <SignOut size={25} color="#e8e4e6" />
                             <p>Sing out</p>
                         </div>
