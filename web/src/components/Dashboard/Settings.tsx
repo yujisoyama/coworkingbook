@@ -19,6 +19,10 @@ export const Settings = () => {
         navigate("/");
     }
 
+    const editProfile = () => {
+        navigate("/profile");
+    }
+
     return (
         <div className='h-[38px] inline'>
             <UserCircle className='inline hover:cursor-pointer hover:scale-110 duration-100' onClick={toggleDrawer(true)} size={38} color="#f9bc60" weight="bold" />
@@ -44,13 +48,9 @@ export const Settings = () => {
                         </div>
                     </div>
                     <div>
-                        <div className='px-9 py-4 flex flex-row items-center gap-2 font-open text-paragraph hover:cursor-pointer hover:bg-[#005855] duration-100'>
+                        <div onClick={editProfile} className='px-9 py-4 flex flex-row items-center gap-2 font-open text-paragraph hover:cursor-pointer hover:bg-[#005855] duration-100'>
                             <PencilSimpleLine size={25} color="#e8e4e6" />
                             <p>Edit profile</p>
-                        </div>
-                        <div className='px-9 py-4 flex flex-row items-center gap-2 font-open text-paragraph hover:cursor-pointer hover:bg-[#005855] duration-100'>
-                            <Info size={25} color="#e8e4e6" />
-                            <p>About</p>
                         </div>
                         <div onClick={signOut} className='px-9 py-4 flex flex-row items-center gap-2 font-open text-paragraph hover:cursor-pointer hover:bg-[#005855] duration-100'>
                             <SignOut size={25} color="#e8e4e6" />

@@ -26,5 +26,5 @@ export class Book {
     booking_day: Date;
 
     @CreateDateColumn()
-    created_at: Date
+    created_at: Date;
 }

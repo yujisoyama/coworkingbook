@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { IPropsUserContext, IUserContext } from '../@types/UserContext';
 import { api } from '../Api';
 

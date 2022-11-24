@@ -12,12 +12,14 @@ routes.get('/', (req: Request, res: Response) => { res.send('Coworking Book Serv
 routes.post('/user', (req: Request, res: Response) => { userControllers.create(req, res, userServices); });
 routes.get('/user/:email', (req: Request, res: Response) => { userControllers.checkEmail(req, res, userServices); })
 routes.get('/user/active/:uuid', (req: Request, res: Response) => { userControllers.activateAccount(req, res, userServices); });
+routes.get('/user/password/:email', (req: Request, res: Response) => { userControllers.getPassword(req, res, userServices); })
 routes.post('/login', (req: Request, res: Response) => { userControllers.login(req, res, userServices) });
 
 
 routes.use(authMiddleware);
 //routes.get('/profile', authMiddleware, (req: Request, res: Response) => { userControllers.getProfile(req, res, userServices) });
 routes.get('/profile', (req: Request, res: Response) => { userControllers.getProfile(req, res) });
+routes.post('/profile/update', (req: Request, res: Response) => { userControllers.updateProfile(req, res, userServices); });
 routes.post('/book', (req: Request, res: Response) => { bookControllers.create(req, res, bookServices); });
 routes.post('/book/available', (req: Request, res: Response) => { bookControllers.getAvailability(req, res, bookServices) });
 routes.get('/book/upcoming/:userId/:todayDate', (req: Request, res: Response) => { bookControllers.getUpcomingBooks(req, res, bookServices); });

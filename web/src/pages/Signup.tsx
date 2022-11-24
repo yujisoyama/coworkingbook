@@ -47,7 +47,7 @@ export const SignUp = () => {
                 });
             }
 
-            toast.warn('Fill the required fileds!', {
+            toast.warn('Fill the required fields!', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -58,7 +58,7 @@ export const SignUp = () => {
                 theme: "dark",
             });
             setIsSubmitting(false);
-
+            //return;
         } else {
             setRequireFullName('false');
             setRequireEmail('false');

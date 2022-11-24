@@ -1,10 +1,10 @@
 import { User } from "../entities/User";
-import { sendEmail } from "../utils/mail";
+import { sendAccountConfirmEmail, sendPasswordEmail } from "../utils/mail";
 import { userRepository } from "../repositories/UserRepository";
 import IUserServices, { IUserLogin, IUserSaveRequest } from "./IUserServices";
 
 import "dotenv/config";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 
 class UserServices implements IUserServices {
@@ -20,7 +20,7 @@ class UserServices implements IUserServices {
             role
         });
         await userRepository.save(newUser);
-        sendEmail(newUser.uuid, newUser.email, newUser.fullname);
+        sendAccountConfirmEmail(newUser.uuid, newUser.email, newUser.fullname);
         return newUser;
     }
 
@@ -75,6 +75,52 @@ class UserServices implements IUserServices {
         }
     }
 
+    async updateProfile(id: number, fullname: string, company: string, role: string, newPassword: string, password: string): Promise<string> {
+        const user = await userRepository.findOneBy({ id });
+        const verifyPass = await bcrypt.compare(password, user!.password);
+
+        if (verifyPass) {
+            const updatedUser = userRepository.create(user!);
+
+            if (typeof newPassword !== 'undefined' && newPassword !== "") {
+                const newHashedPassword = await bcrypt.hash(newPassword, 10);
+                updatedUser.password = newHashedPassword;
+            }
+
+            updatedUser.fullname = fullname;
+            updatedUser.company = company;
+            updatedUser.role = role;
+
+            await userRepository.save(updatedUser);
+            return 'Your profile has been updated!'
+        }
+
+        return 'Your password is wrong.'
+    }
+
+    async getPassword(email: string) {
+        const user = await userRepository.findOneBy({ email });
+
+        if (!user) {
+            return "User not founded."
+        }
+
+        let newPassword = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        for (let i = 0; i < 6; i++) {
+            newPassword += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const newPasswordUser = userRepository.create(user);
+        newPasswordUser.password = hashedPassword;
+        await userRepository.save(newPasswordUser);
+
+        sendPasswordEmail(user.email, user.fullname, newPassword);
+
+        return "Your new password has been sent by email."
+    }
 }
 
 const userServices: UserServices = new UserServices();

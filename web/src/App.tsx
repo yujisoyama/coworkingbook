@@ -6,6 +6,7 @@ import { Dashboard } from './pages/Dashboard'
 
 import { UserProvider } from './context/UserContext'
 import { PrivateRoutes } from './components/PrivateRoutes'
+import { Profile } from './pages/Profile'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route element={<PrivateRoutes />} >
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
         </Routes>
       </Router>

@@ -4,15 +4,18 @@ import { ThreeDots } from "react-loader-spinner"
 import { Link, useNavigate } from "react-router-dom"
 import { useUser } from "../../context/UserContext"
 import { Input } from "../Input"
+import * as Dialog from '@radix-ui/react-dialog'
 
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { api } from "../../Api"
 
 export const LoginForm = () => {
     const { sessionExpired, login } = useUser();
     const [loginInvalid, setLoginInvalid] = useState<boolean>(false);
     const [loginActivate, setLoginActivate] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [email, setEmail] = useState<string>("");
     const navigate = useNavigate();
     let timer: number;
 
@@ -55,18 +58,10 @@ export const LoginForm = () => {
         }
     }
 
-    const handleForgotPass = (event: FormEvent) => {
-        event.preventDefault();
-        toast.error('Not implemented yet!', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-        })
+    const handleForgotPass = async () => {
+        await api.get(`user/password/${email}`)
+            .then()
+            .catch()
     }
 
     return (
@@ -95,9 +90,33 @@ export const LoginForm = () => {
                     {loginActivate && (<div className="text-center rounded-lg text-buttonText w-64 h-12 mx-auto bg-attentionBackground border-attention border-2 font-open font-bold text-sm pt-[0.2rem]">
                         Account needs to be activated. Check your email.
                     </div>)}
-                    <div className="w-40 ml-[11.5rem] mobileHome:ml-[10rem]">
-                        <a onClick={handleForgotPass} className="font-open font-semibold text-sm hover:underline text-main" href="#">Forgot password?</a>
-                    </div>
+                    <Dialog.Root>
+                        <Dialog.Trigger>
+                            <div className="w-40 ml-[11.5rem] mobileHome:ml-[10rem]">
+                                <a className="font-open font-semibold text-sm hover:underline text-main" href="#">Forgot password?</a>
+                            </div>
+                        </Dialog.Trigger>
+                        <Dialog.Portal>
+                            <Dialog.Overlay className="bg-background/90 inset-0 fixed z-10" />
+                            <Dialog.Content className="fixed outline-none bg-backgroundLight p-6 text-paragraph font-noto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 rounded-lg w-[420px] mobile:w-[330px]">
+                                <Dialog.Title className="font-semibold mb-4">
+                                    Forgot Password
+                                </Dialog.Title>
+                                <p>Type your email to recover your password</p>
+                                <div className="relative mx-auto text-background mt-4 w-[300px]">
+                                    <span><EnvelopeSimple className="inline absolute top-4 left-5" size={24} color="#001e1d" /></span>
+                                    <Input name="email" id="email" type='text' placeholder="Email" warning={'false'} onChange={(e) => setEmail(e.target.value)} />
+                                </div>
+                                <div className="flex justify-center">
+                                    <Dialog.Close>
+                                        <button onClick={handleForgotPass} className={`mt-4 w-40 h-12 rounded-full font-extrabold text-background bg-highlight hover:bg-[#FFB340] hover:scale-105 duration-300`} >
+                                            Send Password
+                                        </button>
+                                    </Dialog.Close>
+                                </div>
+                            </Dialog.Content>
+                        </Dialog.Portal>
+                    </Dialog.Root>
                     <button disabled={isSubmitting} className={`w-36 mx-auto h-12 rounded-full font-extrabold from-buttonText ${isSubmitting ? 'bg-disabled scale-105' : 'bg-highlight hover:bg-[#FFB340] hover:scale-105 duration-300'}`} type="submit">
                         {isSubmitting ? <ThreeDots
                             height="20"

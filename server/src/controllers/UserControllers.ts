@@ -67,6 +67,26 @@ class UserControllers {
             return res.status(500).json(error);
         }
     }
+
+    async updateProfile(req: Request, res: Response, userServices: IUserServices) {
+        try {
+            const { id, fullname, company, role, newPassword, password } = req.body;
+            const result = await userServices.updateProfile(id, fullname, company, role, newPassword, password);
+            res.status(200).json({ message: result })
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    }
+
+    async getPassword(req: Request, res: Response, userServices: IUserServices) {
+        try {
+            const email = req.params.email;
+            const result = await userServices.getPassword(email);
+            return res.status(200).json(result);
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    }
 }
 
 const userControllers = new UserControllers();
