@@ -2,7 +2,8 @@
 
 <p align="center">Full Stack application and dockerized. Platform to simplify the booking for desks or meeting rooms in coworking spaces.</p>
 
-https://user-images.githubusercontent.com/64661100/203874398-4fb43138-95fe-4115-86a8-96c0c51e84d8.mp4
+https://user-images.githubusercontent.com/64661100/203874519-a0974abe-6df9-45e9-9340-e45fdf72f14c.mp4
+
 
 ## ▶️ Rodando localmente
 ### Pré-requisitos:
