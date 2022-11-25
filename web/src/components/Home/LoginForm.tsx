@@ -25,7 +25,7 @@ export const LoginForm = () => {
         const loginData = new FormData(event.target as HTMLFormElement);
         const loginForm = Object.fromEntries(loginData);
         try {
-            timer = setTimeout(async () => {
+            timer = window.setTimeout(async () => {
                 const loginStatusCode: number = await login(loginForm);
                 setIsSubmitting(false);
                 if (loginStatusCode === 401) {

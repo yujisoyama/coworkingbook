@@ -24,7 +24,7 @@ export const SignUp = () => {
         setIsSubmitting(true);
         const formData = new FormData(event.target as HTMLFormElement);
         const form = Object.fromEntries(formData);
-        timer = setTimeout(() => formValidate(form), 1000);
+        timer = window.setTimeout(() => formValidate(form), 1000);
     }
 
     const formValidate = async (form: { [k: string]: FormDataEntryValue; }) => {
