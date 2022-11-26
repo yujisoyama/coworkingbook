@@ -1,0 +1,28 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const BookControllers_1 = __importDefault(require("./controllers/BookControllers"));
+const UserControllers_1 = __importDefault(require("./controllers/UserControllers"));
+const auth_1 = require("./middleware/auth");
+const BookServices_1 = __importDefault(require("./services/BookServices"));
+const UserServices_1 = __importDefault(require("./services/UserServices"));
+const routes = (0, express_1.Router)();
+routes.get('/', (req, res) => { res.send('Coworking Book Server'); });
+routes.post('/user', (req, res) => { UserControllers_1.default.create(req, res, UserServices_1.default); });
+routes.get('/user/:email', (req, res) => { UserControllers_1.default.checkEmail(req, res, UserServices_1.default); });
+routes.get('/user/active/:uuid', (req, res) => { UserControllers_1.default.activateAccount(req, res, UserServices_1.default); });
+routes.get('/user/password/:email', (req, res) => { UserControllers_1.default.getPassword(req, res, UserServices_1.default); });
+routes.post('/login', (req, res) => { UserControllers_1.default.login(req, res, UserServices_1.default); });
+routes.use(auth_1.authMiddleware);
+//routes.get('/profile', authMiddleware, (req: Request, res: Response) => { userControllers.getProfile(req, res, userServices) });
+routes.get('/profile', (req, res) => { UserControllers_1.default.getProfile(req, res); });
+routes.post('/profile/update', (req, res) => { UserControllers_1.default.updateProfile(req, res, UserServices_1.default); });
+routes.post('/book', (req, res) => { BookControllers_1.default.create(req, res, BookServices_1.default); });
+routes.post('/book/available', (req, res) => { BookControllers_1.default.getAvailability(req, res, BookServices_1.default); });
+routes.get('/book/upcoming/:userId/:todayDate', (req, res) => { BookControllers_1.default.getUpcomingBooks(req, res, BookServices_1.default); });
+routes.get('/book/last/:userId/:todayDate', (req, res) => { BookControllers_1.default.getLastBooks(req, res, BookServices_1.default); });
+routes.delete('/book/cancel/:bookId', (req, res) => { BookControllers_1.default.cancelUpcomingBook(req, res, BookServices_1.default); });
+exports.default = routes;
