@@ -4,10 +4,15 @@
 
 https://user-images.githubusercontent.com/64661100/203874519-a0974abe-6df9-45e9-9340-e45fdf72f14c.mp4
 
+## Live
+   You can use the platform [Coworking Booking](http://15.228.128.96:5137/) deployed on Amazon EC2.
 
 ## ▶️ Rodando localmente
 ### Pré-requisitos:
    - Ter o Docker instalado na sua máquina, pois toda a aplicação será subida em containers no Docker.
+   - Configurar o seu arquivo /coworkingbook/server/.env para criar as variáveis de ambiente utilizados pela aplicação server-side
+   ![image](https://user-images.githubusercontent.com/64661100/204067987-d80d6e85-7c32-4a76-97b2-d606be2cb530.png)
+
 
 ### Passo a Passo:
    - Clone esse repositório:
