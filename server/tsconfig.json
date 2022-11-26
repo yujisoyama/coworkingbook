@@ -4,6 +4,7 @@
          "es5",
          "es6",
          "ES2018",
+         "dom"
       ],
       "target": "ES2021",
       "module": "commonjs",
@@ -21,8 +22,11 @@
       "typeRoots": ["./src/@types"],
    },
    "include": ["src/**/*"],
-   "exclude": ["node_modules", "build"],
+   "exclude": ["node_modules"],
    "ts-node": {
       "files": true,
+      "compilerOptions": {
+         "module": "commonjs"
+      }
    }
 }

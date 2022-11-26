@@ -27,10 +27,11 @@
       "typeorm": "0.3.10"
    },
    "scripts": {
-      "start": "ts-node src/server.ts",
+      "start": "node build/server.js",
       "typeorm": "typeorm-ts-node-commonjs",
       "dev": "nodemon --inspect ./src/server.ts",
       "migration:generate": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:generate ./src/migration/default",
-      "migration:run": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:run"
+      "migration:run": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:run",
+      "build": "tsc"
    }
 }
