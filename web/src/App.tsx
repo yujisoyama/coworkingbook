@@ -6,7 +6,7 @@ import { Dashboard } from './pages/Dashboard'
 import { UserProvider } from './context/UserContext'
 import { PrivateRoutes } from './components/PrivateRoutes'
 import { Profile } from './pages/Profile'
-import { SignUp } from './pages/SignUp'
+import { SignUp } from './pages/Signup'
 
 function App() {
   return (
