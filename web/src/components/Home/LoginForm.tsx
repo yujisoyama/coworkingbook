@@ -109,9 +109,9 @@ export const LoginForm = () => {
                                 </div>
                                 <div className="flex justify-center">
                                     <Dialog.Close>
-                                        <button onClick={handleForgotPass} className={`mt-4 w-40 h-12 rounded-full font-extrabold text-background bg-highlight hover:bg-[#FFB340] hover:scale-105 duration-300`} >
+                                        <div onClick={handleForgotPass} className={`pt-3 mt-4 w-40 h-12 rounded-full font-extrabold text-background bg-highlight hover:bg-[#FFB340] hover:scale-105 duration-300`} >
                                             Send Password
-                                        </button>
+                                        </div>
                                     </Dialog.Close>
                                 </div>
                             </Dialog.Content>
