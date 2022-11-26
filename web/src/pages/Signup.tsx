@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 
 import { createAccount } from "../utils/createAccount";
-import { checkEmailAlreadyUsing } from "../utils/checkEmailAlreadyUsing";
+import { checkEmailAlreadyUsing } from "../utils/CheckEmailAlreadyUsing";
 import { inputEmpty, verifyEmail } from "../utils/formValidate";
 import { SignUpConfirm } from "../components/SignUp/SignUpConfirm";
 import { SignUpForm } from "../components/SignUp/SignUpForm";
