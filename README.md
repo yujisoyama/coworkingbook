@@ -20,7 +20,7 @@ https://user-images.githubusercontent.com/64661100/203874519-a0974abe-6df9-45e9-
    You can use the platform [Coworking Booking](http://15.228.128.96:5137/) deployed on AWS EC2.
 
 ## ▶️ Running Locally
-### Pré-requisitos:
+### Prerequisites:
    - Have Docker installed on your machine, as the entire application will be uploaded in Docker containers.
    - Configure your own file /coworkingbook/server/.env to create the environment variables used by the server-side application.
    
