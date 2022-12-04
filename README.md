@@ -22,7 +22,7 @@ https://user-images.githubusercontent.com/64661100/203874519-a0974abe-6df9-45e9-
 ## ▶️ Running Locally
 ### Prerequisites:
    - Have Docker installed on your machine, as the entire application will be uploaded in Docker containers.
-   - Configure your own file /coworkingbook/server/.env to create the environment variables used by the server-side application.
+   - Configure your own file /coworkingbook/server/.env to create the environment variables used by the server-side application (see the .env.example file).
    
    ![image](https://user-images.githubusercontent.com/64661100/204067987-d80d6e85-7c32-4a76-97b2-d606be2cb530.png)
 

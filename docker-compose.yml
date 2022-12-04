@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   node:
-    container_name: node
+    container_name: nodeCB
     restart: always
     build: ./server
     ports:
@@ -12,7 +12,7 @@ services:
       - db
 
   db:
-    container_name: postgres
+    container_name: postgresCB
     image: postgres:14.1-alpine
     restart: always
     environment:
@@ -25,7 +25,7 @@ services:
       - db:/var/lib/postgresql/data
 
   web:
-    container_name: web
+    container_name: webCB
     restart: always
     build: ./web
     ports:
