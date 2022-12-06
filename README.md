@@ -6,7 +6,7 @@ Full Stack application and dockerized. Platform to simplify the booking for desk
 | -------------  | --- |
 | :sparkles: Nome        | **Coworking Booking**
 | :label: Tecnologias | React, NodeJS, TypeORM, PostgreSQL, Tailwind, Docker
-| :rocket: URL         | http://15.228.128.96:5137/
+| :rocket: URL         | http://15.228.154.83:5137/
 
 ![](https://user-images.githubusercontent.com/64661100/204069261-7b1a4259-8db6-4031-a885-533e6093114d.png#vitrinedev)
 
@@ -17,7 +17,7 @@ Full Stack application and dockerized. Platform to simplify the booking for desk
 https://user-images.githubusercontent.com/64661100/203874519-a0974abe-6df9-45e9-9340-e45fdf72f14c.mp4
 
 ## Live
-   You can use the platform [Coworking Booking](http://15.228.128.96:5137/) deployed on AWS EC2.
+   You can use the platform [Coworking Booking](http://15.228.154.83:5137/) deployed on AWS EC2.
 
 ## ▶️ Running Locally
 ### Prerequisites:
